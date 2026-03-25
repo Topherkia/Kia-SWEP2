@@ -9,6 +9,10 @@ pipeline {
     environment {
         JAVA_HOME = tool name: 'Local JDK-21', type: 'jdk'
         MAVEN_HOME = tool name: 'Local Maven 3.9.11', type: 'maven'
+
+        DOCKER_HUB_USER = 'mkiavash'
+        IMAGE_NAME = 'shopping-cart-calc'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -47,10 +51,9 @@ pipeline {
                 bat 'mvn test jacoco:report'
             }
             post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                    archiveArtifacts artifacts: 'target/surefire-reports/**', fingerprint: true
-                    archiveArtifacts artifacts: 'target/site/jacoco/**', fingerprint: true
+                success {
+                    junit '**/target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
                 }
             }
         }
@@ -64,9 +67,9 @@ pipeline {
                     sourcePattern: 'src/main/java',
                     exclusionPattern: '**/ShoppingCartCalculator.class'
                 )
-
             }
         }
+
         stage('Package') {
             steps {
                 echo 'Packaging application...'
@@ -78,34 +81,40 @@ pipeline {
                 }
             }
         }
+
         stage('Build & Push Docker Image') {
-                    when {
-                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-                    }
-                    steps {
-                        echo 'Building Docker image...'
-                        bat "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} ."
-                        bat "docker tag ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo 'Building Docker image...'
+                bat "docker build -t ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ."
+                bat "docker tag ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
 
-                        echo 'Pushing to Docker Hub...'
-                        // 'docker-hub-credentials' is the ID you created in Jenkins Credentials
-                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
-                                                         usernameVariable: 'DOCKER_USER',
-                                                         passwordVariable: 'DOCKER_PASS')]) {
+                echo 'Pushing to Docker Hub...'
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
+                                                 usernameVariable: 'DOCKER_USER',
+                                                 passwordVariable: 'DOCKER_PASS')]) {
 
-                            bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                            bat "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-                            bat "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
-                            bat "docker logout"
-                        }
-                    }
+                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                    bat "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+                    bat "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
+                    bat "docker logout"
                 }
+            }
+        }
     }
 
     post {
         always {
             echo 'Pipeline execution completed.'
             cleanWs()
+        }
+        success {
+            echo 'Build and Push succeeded!'
+        }
+        failure {
+            echo 'Build failed.'
         }
     }
 }
