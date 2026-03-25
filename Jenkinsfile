@@ -5,12 +5,10 @@ pipeline {
         maven 'Maven-3.9.11'
         jdk 'JDK-21'
     }
-
     environment {
         JAVA_HOME = tool name: 'JDK-21', type: 'jdk'
         MAVEN_HOME = tool name: 'Maven-3.9.11', type: 'maven'
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -89,12 +87,14 @@ pipeline {
                     exclusionPattern: '**/ShoppingCartCalculator.class'
                 )
 
-                // Record coverage metrics
+                // recordCoverage metrics
                 recordCoverage(
-                    tool: 'jacoco',
-                    sourceCode: 'src/main/java',
-                    classDirectories: 'target/classes',
-                    execPattern: 'target/coverage-reports/jacoco.exec'
+                    tools: [
+                        jacoco(
+                            execPattern: 'target/coverage-reports/jacoco.exec'
+                        )
+                    ],
+                    sourceDirectories: ['src/main/java']
                 )
             }
         }
