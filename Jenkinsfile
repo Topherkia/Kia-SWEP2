@@ -6,14 +6,14 @@ pipeline {
         jdk 'Local JDK-21'
     }
     environment {
-        JAVA_HOME = tool name: 'JDK-21', type: 'jdk'
-        MAVEN_HOME = tool name: 'Maven-3.9.11', type: 'maven'
+        JAVA_HOME = tool name: 'Local JDK-21', type: 'jdk'
+        MAVEN_HOME = tool name: 'Local Maven 3.9.11', type: 'maven'
     }
     stages {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
-                checkout scm
+                checkout scm [cite: 2]
 
                 script {
                     def gitBranch = env.GIT_BRANCH ?: 'unknown'
@@ -28,19 +28,19 @@ pipeline {
             steps {
                 echo 'Setting up build environment...'
 
-                sh 'java -version'
-                sh 'mvn -version'
+                bat 'java -version'
+                bat 'mvn -version'
 
-                sh 'mvn clean'
+                bat 'mvn clean'
 
-                sh 'mkdir -p target/coverage-reports'
+                bat 'mkdir -p target/coverage-reports'
             }
         }
 
         stage('Compile') {
             steps {
                 echo 'Compiling source code...'
-                sh 'mvn compile -Dmaven.test.skip=true'
+                bat 'mvn compile -Dmaven.test.skip=true' [cite: 4]
             }
             post {
                 success {
@@ -55,12 +55,12 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running unit tests with JaCoCo coverage...'
-                sh 'mvn test jacoco:report'
+                bat 'mvn test jacoco:report' [cite: 9]
             }
             post {
                 always {
                     // Publish JUnit test results
-                    junit 'target/surefire-reports/*.xml'
+                    junit 'target/surefire-reports/*.xml' [cite: 10]
 
                     // Archive test reports
                     archiveArtifacts artifacts: 'target/surefire-reports/**', fingerprint: true
@@ -81,19 +81,17 @@ pipeline {
             steps {
                 echo 'Generating coverage report...'
                 jacoco(
-                    execPattern: 'target/coverage-reports/jacoco.exec',
-                    classPattern: 'target/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: '**/ShoppingCartCalculator.class'
+                    execPattern: 'target/jacoco.exec', [cite: 14]
+                    classPattern: 'target/classes', [cite: 14]
+                    sourcePattern: 'src/main/java', [cite: 14]
+                    exclusionPattern: '**/ShoppingCartCalculator.class' [cite: 14]
                 )
 
                 // recordCoverage metrics
                 recordCoverage(
-                    tools: [
-                        jacoco(
-                            execPattern: 'target/coverage-reports/jacoco.exec'
-                        )
-                    ],
+                    tools: [[
+                        jacoco(path: 'target/site/jacoco/jacoco.xml') [cite: 15, 16]
+                    ]],
                     sourceDirectories: ['src/main/java']
                 )
             }
@@ -102,7 +100,7 @@ pipeline {
         stage('Check Coverage Threshold') {
             steps {
                 echo 'Checking coverage thresholds...'
-                sh 'mvn jacoco:check'
+                bat 'mvn jacoco:check'
             }
             post {
                 success {
@@ -119,7 +117,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging application...'
-                sh 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests' [cite: 21]
             }
             post {
                 success {
@@ -136,7 +134,7 @@ pipeline {
             echo 'Pipeline execution completed.'
 
             // Cleans the workspace up
-            cleanWs()
+            cleanWs() [cite: 24]
         }
         success {
             echo 'Build succeeded!'
