@@ -78,24 +78,23 @@ pipeline {
         }
 
         stage('Coverage Report') {
-            steps {
-                echo 'Generating coverage report...'
-                jacoco(
-                    execPattern: 'target/jacoco.exec', [cite: 14]
-                    classPattern: 'target/classes', [cite: 14]
-                    sourcePattern: 'src/main/java', [cite: 14]
-                    exclusionPattern: '**/ShoppingCartCalculator.class' [cite: 14]
-                )
+                    steps {
+                        echo 'Generating coverage report...'
+                        jacoco(
+                            execPattern: 'target/jacoco.exec',
+                            classPattern: 'target/classes',
+                            sourcePattern: 'src/main/java',
+                            exclusionPattern: '**/ShoppingCartCalculator.class'
+                        )
 
-                // recordCoverage metrics
-                recordCoverage(
-                    tools: [[
-                        jacoco(path: 'target/site/jacoco/jacoco.xml') [cite: 15, 16]
-                    ]],
-                    sourceDirectories: ['src/main/java']
-                )
-            }
-        }
+                        recordCoverage(
+                            tools: [[
+                                jacoco(path: 'target/site/jacoco/jacoco.xml')
+                            ]],
+                            sourceDirectories: ['src/main/java']
+                        )
+                    }
+                }
 
         stage('Check Coverage Threshold') {
             steps {
