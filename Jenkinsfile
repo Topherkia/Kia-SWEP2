@@ -4,7 +4,6 @@ pipeline {
     tools {
         maven 'Local Maven 3.9.11'
         jdk 'Local JDK-21'
-        Git 'Local git exe'
     }
     environment {
         JAVA_HOME = tool name: 'JDK-21', type: 'jdk'
