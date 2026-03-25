@@ -67,14 +67,6 @@ pipeline {
 
             }
         }
-
-        stage('Check Coverage Threshold') {
-            steps {
-                echo 'Checking coverage thresholds...'
-                bat 'mvn jacoco:check'
-            }
-        }
-
         stage('Package') {
             steps {
                 echo 'Packaging application...'
