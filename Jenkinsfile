@@ -65,12 +65,6 @@ pipeline {
                     exclusionPattern: '**/ShoppingCartCalculator.class'
                 )
 
-                recordCoverage(
-                    tools: [[
-                        jacoco(path: 'target/site/jacoco/jacoco.xml')
-                    ]],
-                    sourceDirectories: ['src/main/java']
-                )
             }
         }
 
