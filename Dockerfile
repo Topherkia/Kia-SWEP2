@@ -1,4 +1,16 @@
-FROM ubuntu:latest
-LABEL authors="kiava"
+# syntax=docker/dockerfile:1
 
-ENTRYPOINT ["top", "-b"]
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
+WORKDIR /app
+
+COPY pom.xml ./
+COPY src ./src
+
+RUN mvn -q -DskipTests package
+
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+
+COPY --from=builder /app/target/Kia-SWEP2-1.0-SNAPSHOT.jar /app/app.jar
+
+ENTRYPOINT ["java", "-cp", "/app/app.jar", "W1.ShoppingCartCalculator"]

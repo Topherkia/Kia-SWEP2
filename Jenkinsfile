@@ -78,6 +78,28 @@ pipeline {
                 }
             }
         }
+        stage('Build & Push Docker Image') {
+                    when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
+                    steps {
+                        echo 'Building Docker image...'
+                        bat "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} ."
+                        bat "docker tag ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
+
+                        echo 'Pushing to Docker Hub...'
+                        // 'docker-hub-credentials' is the ID you created in Jenkins Credentials
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
+                                                         usernameVariable: 'DOCKER_USER',
+                                                         passwordVariable: 'DOCKER_PASS')]) {
+
+                            bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                            bat "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
+                            bat "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
+                            bat "docker logout"
+                        }
+                    }
+                }
     }
 
     post {
