@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.11'
-        jdk 'JDK-21'
+        maven 'Local Maven 3.9.11'
+        jdk 'Local JDK-21'
+        git 'Local git exe'
     }
     environment {
         JAVA_HOME = tool name: 'JDK-21', type: 'jdk'
@@ -140,23 +141,10 @@ pipeline {
         }
         success {
             echo 'Build succeeded!'
-
-            // Sends success notification (example)
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: "The build completed successfully.\n\nCheck the console output at: ${env.BUILD_URL}",
-                to: "${env.EMAIL_RECIPIENTS ?: 'admin@example.com'}"
-            )
         }
         failure {
             echo 'Build failed!'
 
-            // Sends failure notification
-            emailext(
-                subject: "FAILURE: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: "The build failed.\n\nCheck the console output at: ${env.BUILD_URL}",
-                to: "${env.EMAIL_RECIPIENTS ?: 'admin@example.com'}"
-            )
         }
         unstable {
             echo 'Build is unstable!'
