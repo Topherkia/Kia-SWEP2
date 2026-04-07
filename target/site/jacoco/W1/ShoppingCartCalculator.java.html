@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShoppingCartCalculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kia-SWEP2</a> &gt; <a href="index.source.html" class="el_package">W1</a> &gt; <span class="el_source">ShoppingCartCalculator.java</span></div><h1>ShoppingCartCalculator.java</h1><pre class="source lang-java linenums">package W1;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Map;
+
+<span class="nc" id="L11">public class ShoppingCartCalculator {</span>
+    private static Locale currentLocale;
+    private static Map&lt;String, String&gt; messages;
+    private static ShoppingCart cart;
+    private static CartService cartService;
+    private static LocalizationService localizationService;
+
+    public static void main(String[] args) {
+<span class="nc" id="L19">        System.setProperty(&quot;file.encoding&quot;, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L20">        cart = new ShoppingCart();</span>
+<span class="nc" id="L21">        cartService = new CartService();</span>
+<span class="nc" id="L22">        localizationService = new LocalizationService();</span>
+
+<span class="nc" id="L24">        try (BufferedReader reader = new BufferedReader(</span>
+                new InputStreamReader(System.in, StandardCharsets.UTF_8))) {
+
+<span class="nc" id="L27">            selectLanguage(reader);</span>
+<span class="nc" id="L28">            messages = localizationService.getLocalizedStrings(currentLocale);</span>
+
+<span class="nc" id="L30">            runShoppingSession(reader);</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (!cart.isEmpty()) {</span>
+<span class="nc" id="L33">                displayCartSummary();</span>
+<span class="nc" id="L34">                saveCartToDatabase();</span>
+            }
+<span class="nc" id="L36">            displayTotal(cart.calculateTotalCost());</span>
+
+<span class="nc" id="L38">        } catch (Exception e) {</span>
+<span class="nc" id="L39">            System.err.println(&quot;Error: &quot; + e.getMessage());</span>
+<span class="nc" id="L40">            e.printStackTrace();</span>
+<span class="nc" id="L41">        }</span>
+<span class="nc" id="L42">    }</span>
+
+    private static void selectLanguage(BufferedReader reader) {
+<span class="nc" id="L45">        System.out.println(&quot;Select language / Valitse kieli / Välj språk / 言語を選択 / زبان را بگزینید:&quot;);</span>
+<span class="nc" id="L46">        System.out.println(&quot;1. English&quot;);</span>
+<span class="nc" id="L47">        System.out.println(&quot;2. Finnish (Suomi)&quot;);</span>
+<span class="nc" id="L48">        System.out.println(&quot;3. Swedish (Svenska)&quot;);</span>
+<span class="nc" id="L49">        System.out.println(&quot;4. Japanese (日本語)&quot;);</span>
+<span class="nc" id="L50">        System.out.println(&quot;5. Persian (پارسی)&quot;);</span>
+
+        try {
+<span class="nc" id="L53">            int choice = Integer.parseInt(reader.readLine());</span>
+<span class="nc bnc" id="L54" title="All 6 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L56">                    currentLocale = new Locale(&quot;en&quot;, &quot;US&quot;);</span>
+<span class="nc" id="L57">                    break;</span>
+                case 2:
+<span class="nc" id="L59">                    currentLocale = new Locale(&quot;fi&quot;, &quot;FI&quot;);</span>
+<span class="nc" id="L60">                    break;</span>
+                case 3:
+<span class="nc" id="L62">                    currentLocale = new Locale(&quot;sv&quot;, &quot;SE&quot;);</span>
+<span class="nc" id="L63">                    break;</span>
+                case 4:
+<span class="nc" id="L65">                    currentLocale = new Locale(&quot;ja&quot;, &quot;JP&quot;);</span>
+<span class="nc" id="L66">                    break;</span>
+                case 5:
+<span class="nc" id="L68">                    currentLocale = new Locale(&quot;fa&quot;, &quot;IR&quot;);</span>
+<span class="nc" id="L69">                    break;</span>
+                default:
+<span class="nc" id="L71">                    currentLocale = new Locale(&quot;en&quot;, &quot;US&quot;);</span>
+            }
+<span class="nc" id="L73">        } catch (Exception e) {</span>
+<span class="nc" id="L74">            currentLocale = new Locale(&quot;en&quot;, &quot;US&quot;);</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+
+    private static String msg(String key) {
+<span class="nc" id="L79">        return messages.getOrDefault(key, key);</span>
+    }
+
+    private static void runShoppingSession(BufferedReader reader) {
+<span class="nc" id="L83">        int itemCount = 1;</span>
+
+        try {
+            while (true) {
+<span class="nc" id="L87">                System.out.println(&quot;\n&quot; + msg(&quot;item&quot;) + &quot; &quot; + itemCount);</span>
+
+<span class="nc" id="L89">                System.out.print(msg(&quot;price&quot;) + &quot;: &quot;);</span>
+<span class="nc" id="L90">                String priceInput = reader.readLine();</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">                if (priceInput == null || priceInput.trim().isEmpty()) {</span>
+<span class="nc" id="L92">                    break;</span>
+                }
+
+                double price;
+                try {
+<span class="nc" id="L97">                    price = Double.parseDouble(priceInput);</span>
+<span class="nc" id="L98">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L99">                    System.out.println(msg(&quot;invalid_price&quot;));</span>
+<span class="nc" id="L100">                    continue;</span>
+<span class="nc" id="L101">                }</span>
+
+<span class="nc" id="L103">                System.out.print(msg(&quot;quantity&quot;) + &quot;: &quot;);</span>
+<span class="nc" id="L104">                String quantityInput = reader.readLine();</span>
+<span class="nc bnc" id="L105" title="All 4 branches missed.">                if (quantityInput == null || quantityInput.trim().isEmpty()) {</span>
+<span class="nc" id="L106">                    break;</span>
+                }
+
+                int quantity;
+                try {
+<span class="nc" id="L111">                    quantity = Integer.parseInt(quantityInput);</span>
+<span class="nc" id="L112">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L113">                    System.out.println(msg(&quot;invalid_quantity&quot;));</span>
+<span class="nc" id="L114">                    continue;</span>
+<span class="nc" id="L115">                }</span>
+
+<span class="nc" id="L117">                cart.addItem(price, quantity);</span>
+
+<span class="nc" id="L119">                System.out.print(msg(&quot;add_more&quot;) + &quot; (y/n): &quot;);</span>
+<span class="nc" id="L120">                String response = reader.readLine();</span>
+<span class="nc bnc" id="L121" title="All 4 branches missed.">                if (response == null || !response.equalsIgnoreCase(&quot;y&quot;)) {</span>
+<span class="nc" id="L122">                    break;</span>
+                }
+
+<span class="nc" id="L125">                itemCount++;</span>
+<span class="nc" id="L126">            }</span>
+<span class="nc" id="L127">        } catch (Exception e) {</span>
+<span class="nc" id="L128">            System.err.println(msg(&quot;error&quot;) + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L129">        }</span>
+<span class="nc" id="L130">    }</span>
+
+    private static void displayCartSummary() {
+<span class="nc" id="L133">        System.out.println(&quot;\n&quot; + msg(&quot;cart_summary&quot;));</span>
+<span class="nc" id="L134">        System.out.println(&quot;=&quot;.repeat(50));</span>
+
+<span class="nc" id="L136">        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(currentLocale);</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        for (ShoppingCart.ShoppingItem item : cart.getItems()) {</span>
+<span class="nc" id="L139">            System.out.printf(&quot;%s %d: %s x %d = %s%n&quot;,</span>
+<span class="nc" id="L140">                    msg(&quot;item&quot;),</span>
+<span class="nc" id="L141">                    item.getNumber(),</span>
+<span class="nc" id="L142">                    currencyFormat.format(item.getPrice()),</span>
+<span class="nc" id="L143">                    item.getQuantity(),</span>
+<span class="nc" id="L144">                    currencyFormat.format(item.getTotal()));</span>
+<span class="nc" id="L145">        }</span>
+
+<span class="nc" id="L147">        System.out.println(&quot;=&quot;.repeat(50));</span>
+<span class="nc" id="L148">    }</span>
+
+    private static void saveCartToDatabase() {
+        try {
+<span class="nc" id="L152">            int cartId = cartService.saveCart(cart, currentLocale);</span>
+<span class="nc" id="L153">            System.out.println(&quot;Cart saved to database with id: &quot; + cartId);</span>
+<span class="nc" id="L154">        } catch (SQLException e) {</span>
+<span class="nc" id="L155">            System.err.println(&quot;Could not save cart to database: &quot; + e.getMessage());</span>
+<span class="nc" id="L156">        }</span>
+<span class="nc" id="L157">    }</span>
+
+    private static void displayTotal(double total) {
+<span class="nc" id="L160">        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(currentLocale);</span>
+
+<span class="nc" id="L162">        System.out.println(&quot;\n&quot; + msg(&quot;total_cost&quot;) + &quot;: &quot; + currencyFormat.format(total));</span>
+
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (total == 0) {</span>
+<span class="nc" id="L165">            System.out.println(msg(&quot;empty_cart&quot;));</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        } else if (total &lt; 50) {</span>
+<span class="nc" id="L167">            System.out.println(msg(&quot;small_total&quot;));</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        } else if (total &lt; 200) {</span>
+<span class="nc" id="L169">            System.out.println(msg(&quot;medium_total&quot;));</span>
+        } else {
+<span class="nc" id="L171">            System.out.println(msg(&quot;large_total&quot;));</span>
+        }
+
+<span class="nc" id="L174">        System.out.println(msg(&quot;thank_you&quot;));</span>
+<span class="nc" id="L175">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

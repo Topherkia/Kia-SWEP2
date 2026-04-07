@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShoppingCartGUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kia-SWEP2</a> &gt; <a href="index.source.html" class="el_package">W1</a> &gt; <span class="el_source">ShoppingCartGUI.java</span></div><h1>ShoppingCartGUI.java</h1><pre class="source lang-java linenums">package W1;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+<span class="fc" id="L14">public class ShoppingCartGUI extends Application {</span>
+
+<span class="fc" id="L16">    private ShoppingCart cart = new ShoppingCart();</span>
+
+    private TextField priceField;
+    private TextField quantityField;
+    private TextArea outputArea;
+    private Label totalLabel;
+    private ComboBox&lt;String&gt; languageBox;
+
+    private Locale currentLocale;
+    private ResourceBundle messages;
+
+<span class="fc" id="L27">    private final String BASE_PATH = &quot;MessagesBundle&quot;;</span>
+
+    @Override
+    public void start(Stage stage) {
+<span class="fc" id="L31">        stage.setTitle(&quot;Shopping Cart&quot;);</span>
+
+        // Language selector
+<span class="fc" id="L34">        languageBox = new ComboBox&lt;&gt;();</span>
+<span class="fc" id="L35">        languageBox.setId(&quot;languageBox&quot;);</span>
+<span class="fc" id="L36">        languageBox.getItems().addAll(</span>
+                &quot;English&quot;,
+                &quot;Suomi&quot;,
+                &quot;Svenska&quot;,
+                &quot;日本語&quot;,
+                &quot;پارسی&quot;
+        );
+<span class="fc" id="L43">        languageBox.setValue(&quot;English&quot;);</span>
+<span class="fc" id="L44">        setLocale(&quot;English&quot;);</span>
+
+<span class="fc" id="L46">        languageBox.setOnAction(e -&gt; {</span>
+<span class="nc" id="L47">            setLocale(languageBox.getValue());</span>
+<span class="nc" id="L48">            updateTexts();</span>
+<span class="nc" id="L49">        });</span>
+
+        // Input fields
+<span class="fc" id="L52">        priceField = new TextField();</span>
+<span class="fc" id="L53">        priceField.setId(&quot;priceField&quot;);</span>
+<span class="fc" id="L54">        quantityField = new TextField();</span>
+<span class="fc" id="L55">        quantityField.setId(&quot;quantityField&quot;);</span>
+
+        // Buttons
+<span class="fc" id="L58">        Button addButton = new Button();</span>
+<span class="fc" id="L59">        addButton.setId(&quot;addButton&quot;);</span>
+<span class="fc" id="L60">        Button clearButton = new Button();</span>
+<span class="fc" id="L61">        clearButton.setId(&quot;clearButton&quot;);</span>
+<span class="fc" id="L62">        Button totalButton = new Button();</span>
+<span class="fc" id="L63">        totalButton.setId(&quot;totalButton&quot;);</span>
+
+        // Output
+<span class="fc" id="L66">        outputArea = new TextArea();</span>
+<span class="fc" id="L67">        outputArea.setId(&quot;outputArea&quot;);</span>
+<span class="fc" id="L68">        outputArea.setEditable(false);</span>
+
+<span class="fc" id="L70">        totalLabel = new Label();</span>
+<span class="fc" id="L71">        totalLabel.setId(&quot;totalLabel&quot;);</span>
+
+        // Actions
+<span class="fc" id="L74">        addButton.setOnAction(e -&gt; addItem());</span>
+<span class="fc" id="L75">        clearButton.setOnAction(e -&gt; clearCart());</span>
+<span class="fc" id="L76">        totalButton.setOnAction(e -&gt; updateTotal());</span>
+
+        // Layout
+<span class="fc" id="L79">        HBox inputBox = new HBox(10, priceField, quantityField, addButton);</span>
+<span class="fc" id="L80">        HBox actionBox = new HBox(10, totalButton, clearButton);</span>
+<span class="fc" id="L81">        VBox root = new VBox(10, languageBox, inputBox, actionBox, outputArea, totalLabel);</span>
+
+<span class="fc" id="L83">        root.setPadding(new Insets(15));</span>
+
+        // Store buttons for text updates
+<span class="fc" id="L86">        this.addButtonRef = addButton;</span>
+<span class="fc" id="L87">        this.clearButtonRef = clearButton;</span>
+<span class="fc" id="L88">        this.totalButtonRef = totalButton;</span>
+
+<span class="fc" id="L90">        updateTexts();</span>
+
+<span class="fc" id="L92">        Scene scene = new Scene(root, 520, 420);</span>
+<span class="fc" id="L93">        stage.setScene(scene);</span>
+<span class="fc" id="L94">        stage.show();</span>
+<span class="fc" id="L95">    }</span>
+
+    private Button addButtonRef;
+    private Button clearButtonRef;
+    private Button totalButtonRef;
+
+    private void setLocale(String language) {
+<span class="pc bpc" id="L102" title="4 of 5 branches missed.">        switch (language) {</span>
+            case &quot;Suomi&quot;:
+<span class="nc" id="L104">                currentLocale = new Locale(&quot;fi&quot;, &quot;FI&quot;);</span>
+<span class="nc" id="L105">                break;</span>
+            case &quot;Svenska&quot;:
+<span class="nc" id="L107">                currentLocale = new Locale(&quot;sv&quot;, &quot;SE&quot;);</span>
+<span class="nc" id="L108">                break;</span>
+            case &quot;日本語&quot;:
+<span class="nc" id="L110">                currentLocale = new Locale(&quot;ja&quot;, &quot;JP&quot;);</span>
+<span class="nc" id="L111">                break;</span>
+            case &quot;پارسی&quot;:
+<span class="nc" id="L113">                currentLocale = new Locale(&quot;fa&quot;, &quot;IR&quot;);</span>
+<span class="nc" id="L114">                break;</span>
+            default:
+<span class="fc" id="L116">                currentLocale = new Locale(&quot;en&quot;, &quot;US&quot;);</span>
+        }
+
+<span class="fc" id="L119">        messages = ResourceBundle.getBundle(BASE_PATH, currentLocale);</span>
+<span class="fc" id="L120">    }</span>
+
+    private void updateTexts() {
+<span class="fc" id="L123">        priceField.setPromptText(messages.getString(&quot;price&quot;));</span>
+<span class="fc" id="L124">        quantityField.setPromptText(messages.getString(&quot;quantity&quot;));</span>
+
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if (currentLocale.getLanguage().equals(&quot;en&quot;)) {</span>
+<span class="fc" id="L127">            addButtonRef.setText(&quot;Add&quot;);</span>
+<span class="fc" id="L128">            clearButtonRef.setText(&quot;Clear&quot;);</span>
+<span class="fc" id="L129">            totalButtonRef.setText(&quot;Total&quot;);</span>
+        } else {
+<span class="nc" id="L131">            addButtonRef.setText(messages.getString(&quot;add_more&quot;));</span>
+<span class="nc" id="L132">            clearButtonRef.setText(messages.getString(&quot;clear&quot;));</span>
+        }
+
+<span class="fc" id="L135">        updateTotal();</span>
+<span class="fc" id="L136">    }</span>
+
+    private void addItem() {
+        try {
+<span class="fc" id="L140">            String priceText = priceField.getText().trim();</span>
+<span class="fc" id="L141">            String quantityText = quantityField.getText().trim();</span>
+
+            double price;
+            int quantity;
+
+<span class="pc bpc" id="L146" title="2 of 4 branches missed.">            if (!priceText.isEmpty() &amp;&amp; !quantityText.isEmpty()) {</span>
+<span class="fc" id="L147">                price = Double.parseDouble(priceText);</span>
+<span class="fc" id="L148">                quantity = Integer.parseInt(quantityText);</span>
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            } else if (!priceText.isEmpty()) {</span>
+<span class="nc" id="L151">                String digitsOnly = priceText.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                if (digitsOnly.length() &lt; 2) {</span>
+<span class="nc" id="L154">                    throw new IllegalArgumentException();</span>
+                }
+
+<span class="nc" id="L157">                price = Double.parseDouble(digitsOnly.substring(0, digitsOnly.length() - 1));</span>
+<span class="nc" id="L158">                quantity = Integer.parseInt(digitsOnly.substring(digitsOnly.length() - 1));</span>
+
+<span class="nc" id="L160">            } else {</span>
+<span class="nc" id="L161">                throw new IllegalArgumentException();</span>
+            }
+
+<span class="fc" id="L164">            cart.addItem(price, quantity);</span>
+
+<span class="fc" id="L166">            NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
+
+<span class="fc" id="L168">            outputArea.appendText(</span>
+<span class="fc" id="L169">                    messages.getString(&quot;item&quot;) + &quot; &quot; + cart.getItemCount() + &quot;: &quot; +</span>
+<span class="fc" id="L170">                            format.format(price) + &quot; x &quot; + quantity + &quot; = &quot; +</span>
+<span class="fc" id="L171">                            format.format(price * quantity) + &quot;\n&quot;</span>
+            );
+
+<span class="fc" id="L174">            priceField.clear();</span>
+<span class="fc" id="L175">            quantityField.clear();</span>
+
+<span class="fc" id="L177">            updateTotal();</span>
+
+<span class="nc" id="L179">        } catch (Exception e) {</span>
+<span class="nc" id="L180">            showError(messages.getString(&quot;error&quot;));</span>
+<span class="fc" id="L181">        }</span>
+<span class="fc" id="L182">    }</span>
+    private void clearCart() {
+<span class="fc" id="L184">        cart.clearCart();</span>
+<span class="fc" id="L185">        outputArea.clear();</span>
+<span class="fc" id="L186">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: 0&quot;);</span>
+<span class="fc" id="L187">    }</span>
+
+    private void updateTotal() {
+<span class="fc" id="L190">        double total = cart.calculateTotalCost();</span>
+<span class="fc" id="L191">        NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
+
+<span class="fc" id="L193">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: &quot; + format.format(total));</span>
+<span class="fc" id="L194">    }</span>
+
+    private void showError(String message) {
+<span class="nc" id="L197">        Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L198">        alert.setHeaderText(messages.getString(&quot;error&quot;));</span>
+<span class="nc" id="L199">        alert.setContentText(message);</span>
+<span class="nc" id="L200">        alert.showAndWait();</span>
+<span class="nc" id="L201">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L204">        launch();</span>
+<span class="nc" id="L205">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
