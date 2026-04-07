@@ -16,7 +16,7 @@ public final class DatabaseConnection {
         );
     }
     static String getDbUsername() {
-        return readSetting("DB_USERNAME", "root"); //
+        return readSetting("DB_USERNAME", "root");
     }
 
     static String getDbPassword() {

@@ -1,4 +1,4 @@
-# Created at 2026-04-07T18:23:08.476
+# Created at 2026-04-07T20:17:17.090
 Boot Manifest-JAR contains absolute paths in classpath 'D:\uni\SWEP2\Kia-SWEP2\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root

@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -26,9 +27,18 @@ public class ShoppingCartGUI extends Application {
 
     private final String BASE_PATH = "MessagesBundle";
 
+    private CartService cartService;
+    // For Testing:
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
     @Override
     public void start(Stage stage) {
         stage.setTitle("Shopping Cart");
+
+        if (this.cartService == null) {
+            this.cartService = new CartService();
+        }
 
         // Language selector
         languageBox = new ComboBox<>();
@@ -61,6 +71,10 @@ public class ShoppingCartGUI extends Application {
         clearButton.setId("clearButton");
         Button totalButton = new Button();
         totalButton.setId("totalButton");
+        Button saveButton = new Button();
+        saveButton.setId("saveButton");
+        Button newCartButton = new Button();
+        newCartButton.setId("newCartButton");
 
         // Output
         outputArea = new TextArea();
@@ -74,10 +88,12 @@ public class ShoppingCartGUI extends Application {
         addButton.setOnAction(e -> addItem());
         clearButton.setOnAction(e -> clearCart());
         totalButton.setOnAction(e -> updateTotal());
+        saveButton.setOnAction(e -> saveCartToDatabase());
+        newCartButton.setOnAction(e -> newCart());
 
         // Layout
         HBox inputBox = new HBox(10, priceField, quantityField, addButton);
-        HBox actionBox = new HBox(10, totalButton, clearButton);
+        HBox actionBox = new HBox(10, totalButton, clearButton, saveButton, newCartButton);
         VBox root = new VBox(10, languageBox, inputBox, actionBox, outputArea, totalLabel);
 
         root.setPadding(new Insets(15));
@@ -86,10 +102,12 @@ public class ShoppingCartGUI extends Application {
         this.addButtonRef = addButton;
         this.clearButtonRef = clearButton;
         this.totalButtonRef = totalButton;
+        this.saveButtonRef = saveButton;
+        this.newCartButtonRef = newCartButton;
 
         updateTexts();
 
-        Scene scene = new Scene(root, 520, 420);
+        Scene scene = new Scene(root, 650, 420);
         stage.setScene(scene);
         stage.show();
     }
@@ -97,6 +115,8 @@ public class ShoppingCartGUI extends Application {
     private Button addButtonRef;
     private Button clearButtonRef;
     private Button totalButtonRef;
+    private Button saveButtonRef;
+    private Button newCartButtonRef;
 
     private void setLocale(String language) {
         switch (language) {
@@ -123,14 +143,11 @@ public class ShoppingCartGUI extends Application {
         priceField.setPromptText(messages.getString("price"));
         quantityField.setPromptText(messages.getString("quantity"));
 
-        if (currentLocale.getLanguage().equals("en")) {
-            addButtonRef.setText("Add");
-            clearButtonRef.setText("Clear");
-            totalButtonRef.setText("Total");
-        } else {
-            addButtonRef.setText(messages.getString("add_more"));
-            clearButtonRef.setText(messages.getString("clear"));
-        }
+        addButtonRef.setText(messages.getString("add"));
+        clearButtonRef.setText(messages.getString("clear"));
+        totalButtonRef.setText(messages.getString("total"));
+        saveButtonRef.setText(messages.getString("save"));
+        newCartButtonRef.setText(messages.getString("new_cart"));
 
         updateTotal();
     }
@@ -180,10 +197,47 @@ public class ShoppingCartGUI extends Application {
             showError(messages.getString("error"));
         }
     }
+
     private void clearCart() {
         cart.clearCart();
         outputArea.clear();
         totalLabel.setText(messages.getString("total_cost") + ": 0");
+        showInfo(messages.getString("cart_cleared"));
+    }
+
+    private void newCart() {
+        if (!cart.isEmpty()) {
+            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDialog.setTitle(messages.getString("confirm"));
+            confirmDialog.setHeaderText(messages.getString("new_cart_confirm_header"));
+            confirmDialog.setContentText(messages.getString("new_cart_confirm_content"));
+
+            ButtonType result = confirmDialog.showAndWait().orElse(ButtonType.CANCEL);
+
+            if (result == ButtonType.OK) {
+                cart.clearCart();
+                outputArea.clear();
+                updateTotal();
+                showInfo(messages.getString("new_cart_created"));
+            }
+        } else {
+            showInfo(messages.getString("cart_already_empty"));
+        }
+    }
+
+    private void saveCartToDatabase() {
+        if (cart.isEmpty()) {
+            showWarning(messages.getString("cannot_save_empty_cart"));
+            return;
+        }
+
+        try {
+            int cartId = cartService.saveCart(cart, currentLocale);
+            showInfo(messages.getString("cart_saved") + " " + messages.getString("id") + ": " + cartId);
+        } catch (SQLException e) {
+            showError(messages.getString("database_error") + ": " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void updateTotal() {
@@ -196,6 +250,20 @@ public class ShoppingCartGUI extends Application {
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(messages.getString("error"));
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showWarning(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(messages.getString("warning"));
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showInfo(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(messages.getString("information"));
         alert.setContentText(message);
         alert.showAndWait();
     }
