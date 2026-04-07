@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="W1.ShoppingCartTest$EdgeCasesTests" time="0.018" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="W1.ShoppingCartGUITest" time="2.119" tests="2" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="javafx.runtime.version" value="21.0.2+5"/>
@@ -66,8 +66,18 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testMaximumValues" classname="W1.ShoppingCartTest$EdgeCasesTests" time="0.01"/>
-  <testcase name="testItemNumberSequence" classname="W1.ShoppingCartTest$EdgeCasesTests" time="0.001"/>
-  <testcase name="testVerySmallDecimals" classname="W1.ShoppingCartTest$EdgeCasesTests" time="0.001"/>
-  <testcase name="testMixedItemTypes" classname="W1.ShoppingCartTest$EdgeCasesTests" time="0.001"/>
+  <testcase name="testClearCart" classname="W1.ShoppingCartGUITest" time="1.134"/>
+  <testcase name="testAddItemAndTotal" classname="W1.ShoppingCartGUITest" time="0.979">
+    <error message="the query &quot;Add&quot; returned no nodes." type="org.testfx.api.FxRobotException"><![CDATA[org.testfx.api.FxRobotException: the query "Add" returned no nodes.
+	at org.testfx.api.FxRobot.queryVisibleNode(FxRobot.java:949)
+	at org.testfx.api.FxRobot.pointOfVisibleNode(FxRobot.java:922)
+	at org.testfx.api.FxRobot.clickOn(FxRobot.java:630)
+	at org.testfx.api.FxRobot.clickOn(FxRobot.java:59)
+	at org.testfx.api.FxRobotInterface.clickOn(FxRobotInterface.java:639)
+	at W1.ShoppingCartGUITest.testAddItemAndTotal(ShoppingCartGUITest.java:23)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></error>
+  </testcase>
 </testsuite>

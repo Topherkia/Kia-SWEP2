@@ -7,9 +7,6 @@ pipeline {
     }
 
     environment {
-        JAVA_HOME = tool name: 'Local JDK-21', type: 'jdk'
-        MAVEN_HOME = tool name: 'Local Maven 3.9.11', type: 'maven'
-
         DOCKER_HUB_USER = 'mkiavash'
         IMAGE_NAME = 'shopping-cart-calc'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
@@ -18,62 +15,34 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out source code...'
                 checkout scm
-                script {
-                    def gitBranch = env.GIT_BRANCH ?: 'unknown'
-                    def gitCommit = env.GIT_COMMIT ?: 'unknown'
-                    echo "Building branch: ${gitBranch}"
-                    echo "Commit: ${gitCommit}"
-                }
+                sh 'git rev-parse --abbrev-ref HEAD && git rev-parse --short HEAD'
             }
         }
 
-        stage('Setup') {
+        stage('Clean & Compile') {
             steps {
-                echo 'Setting up build environment...'
-                bat 'java -version'
-                bat 'mvn -version'
-                bat 'mvn clean'
+                sh 'java -version'
+                sh 'mvn -version'
+                sh 'mvn clean compile -DskipTests'
             }
         }
 
-        stage('Compile') {
+        stage('Test + JaCoCo') {
             steps {
-                echo 'Compiling source code...'
-                bat 'mvn compile -Dmaven.test.skip=true'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running unit tests with JaCoCo coverage...'
-                bat 'mvn test jacoco:report'
+                sh 'mvn test verify -Pcoverage'
             }
             post {
-                success {
-                    junit '**/target/surefire-reports/*.xml'
+                always {
+                    junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
                     archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
                 }
             }
         }
 
-        stage('Coverage Report') {
-            steps {
-                echo 'Generating coverage report...'
-                jacoco(
-                    execPattern: 'target/jacoco.exec',
-                    classPattern: 'target/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: '**/ShoppingCartCalculator.class'
-                )
-            }
-        }
-
         stage('Package') {
             steps {
-                echo 'Packaging application...'
-                bat 'mvn package -DskipTests'
+                sh 'mvn package -DskipTests'
             }
             post {
                 success {
@@ -82,24 +51,23 @@ pipeline {
             }
         }
 
-        stage('Build & Push Docker Image') {
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ."
+                sh "docker tag ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
+            }
+        }
+
+        stage('Push Docker Image') {
             when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                expression { env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master' }
             }
             steps {
-                echo 'Building Docker image...'
-                bat "docker build -t ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ."
-                bat "docker tag ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG} ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
-
-                echo 'Pushing to Docker Hub...'
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
-                                                 usernameVariable: 'DOCKER_USER',
-                                                 passwordVariable: 'DOCKER_PASS')]) {
-
-                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                    bat "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG}"
-                    bat "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
-                    bat "docker logout"
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                    sh "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+                    sh "docker push ${env.DOCKER_HUB_USER}/${env.IMAGE_NAME}:latest"
+                    sh 'docker logout'
                 }
             }
         }
@@ -107,14 +75,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline execution completed.'
             cleanWs()
-        }
-        success {
-            echo 'Build and Push succeeded!'
-        }
-        failure {
-            echo 'Build failed.'
         }
     }
 }

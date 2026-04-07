@@ -1,0 +1,128 @@
+-------------------------------------------------------------------------------
+Test set: W1.DatabaseServicesTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.353 s <<< FAILURE! -- in W1.DatabaseServicesTest
+W1.DatabaseServicesTest.localizationService_LoadsLocalizedValues -- Time elapsed: 0.301 s <<< ERROR!
+org.h2.jdbc.JdbcSQLSyntaxErrorException: 
+Syntax error in SQL statement "CREATE TABLE localization_strings (\000a    id INT AUTO_INCREMENT PRIMARY KEY,\000a    `key` VARCHAR(100) NOT NULL,\000a    [*]value VARCHAR(255) NOT NULL,\000a    language VARCHAR(10) NOT NULL\000a)\000a"; expected "identifier"; SQL statement:
+CREATE TABLE localization_strings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    language VARCHAR(10) NOT NULL
+)
+ [42001-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261)
+	at org.h2.command.Parser.readIdentifier(Parser.java:5533)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8994)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8939)
+	at org.h2.command.Parser.parseCreate(Parser.java:6404)
+	at org.h2.command.Parser.parsePrepared(Parser.java:666)
+	at org.h2.command.Parser.parse(Parser.java:592)
+	at org.h2.command.Parser.parse(Parser.java:564)
+	at org.h2.command.Parser.prepareCommand(Parser.java:483)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at W1.DatabaseServicesTest.setUp(DatabaseServiceTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+W1.DatabaseServicesTest.localizationService_FallsBackToEnglish -- Time elapsed: 0.011 s <<< ERROR!
+org.h2.jdbc.JdbcSQLSyntaxErrorException: 
+Syntax error in SQL statement "CREATE TABLE localization_strings (\000a    id INT AUTO_INCREMENT PRIMARY KEY,\000a    `key` VARCHAR(100) NOT NULL,\000a    [*]value VARCHAR(255) NOT NULL,\000a    language VARCHAR(10) NOT NULL\000a)\000a"; expected "identifier"; SQL statement:
+CREATE TABLE localization_strings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    language VARCHAR(10) NOT NULL
+)
+ [42001-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261)
+	at org.h2.command.Parser.readIdentifier(Parser.java:5533)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8994)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8939)
+	at org.h2.command.Parser.parseCreate(Parser.java:6404)
+	at org.h2.command.Parser.parsePrepared(Parser.java:666)
+	at org.h2.command.Parser.parse(Parser.java:592)
+	at org.h2.command.Parser.parse(Parser.java:564)
+	at org.h2.command.Parser.prepareCommand(Parser.java:483)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at W1.DatabaseServicesTest.setUp(DatabaseServiceTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+W1.DatabaseServicesTest.cartService_SavesCartAndItems -- Time elapsed: 0.006 s <<< ERROR!
+org.h2.jdbc.JdbcSQLSyntaxErrorException: 
+Syntax error in SQL statement "CREATE TABLE localization_strings (\000a    id INT AUTO_INCREMENT PRIMARY KEY,\000a    `key` VARCHAR(100) NOT NULL,\000a    [*]value VARCHAR(255) NOT NULL,\000a    language VARCHAR(10) NOT NULL\000a)\000a"; expected "identifier"; SQL statement:
+CREATE TABLE localization_strings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    language VARCHAR(10) NOT NULL
+)
+ [42001-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261)
+	at org.h2.command.Parser.readIdentifier(Parser.java:5533)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8994)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8939)
+	at org.h2.command.Parser.parseCreate(Parser.java:6404)
+	at org.h2.command.Parser.parsePrepared(Parser.java:666)
+	at org.h2.command.Parser.parse(Parser.java:592)
+	at org.h2.command.Parser.parse(Parser.java:564)
+	at org.h2.command.Parser.prepareCommand(Parser.java:483)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at W1.DatabaseServicesTest.setUp(DatabaseServiceTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+W1.DatabaseServicesTest.databaseConnection_UsesSystemProperties -- Time elapsed: 0.005 s <<< ERROR!
+org.h2.jdbc.JdbcSQLSyntaxErrorException: 
+Syntax error in SQL statement "CREATE TABLE localization_strings (\000a    id INT AUTO_INCREMENT PRIMARY KEY,\000a    `key` VARCHAR(100) NOT NULL,\000a    [*]value VARCHAR(255) NOT NULL,\000a    language VARCHAR(10) NOT NULL\000a)\000a"; expected "identifier"; SQL statement:
+CREATE TABLE localization_strings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    language VARCHAR(10) NOT NULL
+)
+ [42001-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261)
+	at org.h2.command.Parser.readIdentifier(Parser.java:5533)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8994)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8939)
+	at org.h2.command.Parser.parseCreate(Parser.java:6404)
+	at org.h2.command.Parser.parsePrepared(Parser.java:666)
+	at org.h2.command.Parser.parse(Parser.java:592)
+	at org.h2.command.Parser.parse(Parser.java:564)
+	at org.h2.command.Parser.prepareCommand(Parser.java:483)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at W1.DatabaseServicesTest.setUp(DatabaseServiceTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

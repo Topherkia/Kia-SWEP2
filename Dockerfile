@@ -4,13 +4,15 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 
 COPY pom.xml ./
-COPY src ./src
+RUN mvn -q -DskipTests dependency:go-offline
 
-RUN mvn -q -DskipTests package
+COPY src ./src
+RUN mvn -q -DskipTests package dependency:copy-dependencies -DincludeScope=runtime
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 COPY --from=builder /app/target/Kia-SWEP2-1.0-SNAPSHOT.jar /app/app.jar
+COPY --from=builder /app/target/dependency /app/lib
 
-ENTRYPOINT ["java", "-cp", "/app/app.jar", "W1.ShoppingCartCalculator"]
+ENTRYPOINT ["java", "-cp", "/app/app.jar:/app/lib/*", "W1.ShoppingCartCalculator"]

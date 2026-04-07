@@ -1,5 +1,8 @@
+W1\ShoppingCartFxTest.class
 W1\ShoppingCartTest$CartManagementTests.class
 W1\ShoppingCartTest$CartTotalCalculationTests.class
-W1\ShoppingCartTest.class
+W1\ShoppingCartGUITest.class
 W1\ShoppingCartTest$EdgeCasesTests.class
 W1\ShoppingCartTest$ItemTotalCalculationTests.class
+W1\DatabaseServicesTest.class
+W1\ShoppingCartTest.class
