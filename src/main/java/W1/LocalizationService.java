@@ -10,7 +10,8 @@ import java.util.Map;
 
 public class LocalizationService {
 
-    private static final String LOCALIZATION_SQL = "SELECT `key`, value FROM localization_strings WHERE language = ?";
+    private static final String LOCALIZATION_SQL =
+            "SELECT `key`, `value` FROM localization_strings WHERE language = ?";
 
     public Map<String, String> getLocalizedStrings(Locale locale) {
         String languageTag = locale.toLanguageTag();

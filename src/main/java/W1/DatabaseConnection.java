@@ -15,13 +15,12 @@ public final class DatabaseConnection {
                 "jdbc:mysql://localhost:3306/shopping_cart_localization?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
         );
     }
-
     static String getDbUsername() {
-        return readSetting("DB_USERNAME", "root");
+        return readSetting("DB_USERNAME", "root"); //
     }
 
     static String getDbPassword() {
-        return readSetting("DB_PASSWORD", "root");
+        return readSetting("DB_PASSWORD", "");
     }
 
     private static String readSetting(String key, String defaultValue) {

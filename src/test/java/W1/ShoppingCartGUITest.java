@@ -6,6 +6,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+import static org.hamcrest.Matchers.containsString;
 
 public class ShoppingCartGUITest extends ApplicationTest {
 
@@ -17,21 +18,21 @@ public class ShoppingCartGUITest extends ApplicationTest {
     @Test
     void testAddItemAndTotal() {
 
-        clickOn(".text-field").write("10");   // price
-        clickOn(".text-field").write("2");    // quantity
+        clickOn("#priceField").write("10");
+        clickOn("#quantityField").write("2");
 
-        clickOn("Add");
+        clickOn("#addButton");
 
-        clickOn("Total");
+        clickOn("#totalButton");
 
-        verifyThat(".label", hasText(org.hamcrest.Matchers.containsString("20")));
+        verifyThat("#totalLabel", hasText(containsString("20")));
     }
 
     @Test
     void testClearCart() {
 
-        clickOn("Clear");
+        clickOn("#clearButton");
 
-        verifyThat(".label", hasText(org.hamcrest.Matchers.containsString("0")));
+        verifyThat("#totalLabel", hasText(containsString("0")));
     }
 }

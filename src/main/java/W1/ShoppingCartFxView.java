@@ -19,7 +19,7 @@ public class ShoppingCartFxView extends VBox {
         this.totalLabel = new Label(formatTotal());
         this.totalLabel.setId("totalLabel");
 
-        Button addButton = new Button("Add demo item");
+        Button addButton = new Button("Add");
         addButton.setId("addButton");
         addButton.setOnAction(event -> addDemoItem());
 

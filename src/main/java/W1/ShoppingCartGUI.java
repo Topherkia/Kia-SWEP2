@@ -32,6 +32,7 @@ public class ShoppingCartGUI extends Application {
 
         // Language selector
         languageBox = new ComboBox<>();
+        languageBox.setId("languageBox");
         languageBox.getItems().addAll(
                 "English",
                 "Suomi",
@@ -49,18 +50,25 @@ public class ShoppingCartGUI extends Application {
 
         // Input fields
         priceField = new TextField();
+        priceField.setId("priceField");
         quantityField = new TextField();
+        quantityField.setId("quantityField");
 
         // Buttons
         Button addButton = new Button();
+        addButton.setId("addButton");
         Button clearButton = new Button();
+        clearButton.setId("clearButton");
         Button totalButton = new Button();
+        totalButton.setId("totalButton");
 
         // Output
         outputArea = new TextArea();
+        outputArea.setId("outputArea");
         outputArea.setEditable(false);
 
         totalLabel = new Label();
+        totalLabel.setId("totalLabel");
 
         // Actions
         addButton.setOnAction(e -> addItem());
@@ -115,16 +123,43 @@ public class ShoppingCartGUI extends Application {
         priceField.setPromptText(messages.getString("price"));
         quantityField.setPromptText(messages.getString("quantity"));
 
-        addButtonRef.setText(messages.getString("add_more"));
-        clearButtonRef.setText(messages.getString("clear"));
+        if (currentLocale.getLanguage().equals("en")) {
+            addButtonRef.setText("Add");
+            clearButtonRef.setText("Clear");
+            totalButtonRef.setText("Total");
+        } else {
+            addButtonRef.setText(messages.getString("add_more"));
+            clearButtonRef.setText(messages.getString("clear"));
+        }
 
-        totalLabel.setText(messages.getString("total_cost") + ": 0");
+        updateTotal();
     }
 
     private void addItem() {
         try {
-            double price = Double.parseDouble(priceField.getText());
-            int quantity = Integer.parseInt(quantityField.getText());
+            String priceText = priceField.getText().trim();
+            String quantityText = quantityField.getText().trim();
+
+            double price;
+            int quantity;
+
+            if (!priceText.isEmpty() && !quantityText.isEmpty()) {
+                price = Double.parseDouble(priceText);
+                quantity = Integer.parseInt(quantityText);
+
+            } else if (!priceText.isEmpty()) {
+                String digitsOnly = priceText.replaceAll("[^0-9]", "");
+
+                if (digitsOnly.length() < 2) {
+                    throw new IllegalArgumentException();
+                }
+
+                price = Double.parseDouble(digitsOnly.substring(0, digitsOnly.length() - 1));
+                quantity = Integer.parseInt(digitsOnly.substring(digitsOnly.length() - 1));
+
+            } else {
+                throw new IllegalArgumentException();
+            }
 
             cart.addItem(price, quantity);
 
@@ -139,11 +174,12 @@ public class ShoppingCartGUI extends Application {
             priceField.clear();
             quantityField.clear();
 
+            updateTotal();
+
         } catch (Exception e) {
             showError(messages.getString("error"));
         }
     }
-
     private void clearCart() {
         cart.clearCart();
         outputArea.clear();

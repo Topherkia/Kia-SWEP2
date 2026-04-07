@@ -54,13 +54,13 @@ class DatabaseServicesTest {
                     CREATE TABLE localization_strings (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         `key` VARCHAR(100) NOT NULL,
-                        value VARCHAR(255) NOT NULL,
+                        `value` VARCHAR(255) NOT NULL,
                         language VARCHAR(10) NOT NULL
                     )
                     """);
 
             connection.createStatement().execute("""
-                    INSERT INTO localization_strings (`key`, value, language)
+                    INSERT INTO localization_strings (`key`, `value`, language)
                     VALUES
                     ('item', 'Item', 'en-US'),
                     ('price', 'Enter price', 'en-US'),

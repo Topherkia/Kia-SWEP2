@@ -16,6 +16,8 @@
         <jacoco.version>0.8.11</jacoco.version>
         <javafx.version>21.0.2</javafx.version>
         <testfx.version>4.0.18</testfx.version>
+        <dotenv.version>3.0.0</dotenv.version>
+        <mariadb.version>3.3.3</mariadb.version>
     </properties>
 
     <dependencies>
@@ -29,6 +31,11 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -52,6 +59,16 @@
             <artifactId>openjfx-monocle</artifactId>
             <version>21.0.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>${dotenv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>2.0.12</version>
         </dependency>
     </dependencies>
 
