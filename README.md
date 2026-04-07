@@ -59,13 +59,20 @@ CREATE TABLE IF NOT EXISTS localization_strings (
 );
 ```
 
-## 2) Configure Database Connection
+## 2) Configure Environment variables(added Database Connection)
 
 The app reads connection values from system properties first, then environment variables, then defaults:
 
 - `DB_URL` (default: `jdbc:mysql://localhost:3306/shopping_cart_localization?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC`)
 - `DB_USERNAME` (default: `root`)
 - `DB_PASSWORD` (default: empty)
+- `JAVA_HOME`
+- `MAVEN_HOME`
+- `IMAGE_NAME`
+- `IMAGE_TAG`
+- `DOCKER_HUB_USER`
+- `DOCKER_USER`
+- `DOCKER_PASS`
 
 Examples:
 
@@ -86,12 +93,9 @@ mvn clean test
 ```bash
 mvn -q exec:java -Dexec.mainClass=W1.ShoppingCartCalculator
 ```
-
-Or run the packaged jar:
-
+## 4.1) Run with GUI
 ```bash
-mvn -q -DskipTests package dependency:copy-dependencies -DincludeScope=runtime
-java -cp target/Kia-SWEP2-1.0-SNAPSHOT.jar:target/dependency/* W1.ShoppingCartCalculator
+mvn -q exec:java -Dexec.mainClass=W1.ShoppingCartGUI
 ```
 
 ## 5) Verify Stored Data
@@ -134,10 +138,3 @@ Expected Jenkins tools:
 - Maven installation named `Local Maven 3.9.11`
 - JDK installation named `Local JDK-21`
 
-## Submission Checklist (Oma)
-
-Include the following evidence:
-1. Screenshot of `cart_records` showing `total_items`, `total_cost`, `language`, `created_at`
-2. Screenshot of `cart_items`
-3. Application screenshots with different languages selected
-4. GitHub repository link containing source, schema, Dockerfile, Jenkinsfile, README
