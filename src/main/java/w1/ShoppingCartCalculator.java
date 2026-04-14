@@ -37,7 +37,8 @@ public class ShoppingCartCalculator {
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
+            //add for debugging
+            //e.printStackTrace();
         }
     }
 
