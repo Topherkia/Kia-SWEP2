@@ -1,8 +1,9 @@
-W1\LocalizationService.class
-W1\CartService.class
-W1\ShoppingCart.class
-W1\ShoppingCart$ShoppingItem.class
-W1\ShoppingCartGUI.class
-W1\ShoppingCartFxView.class
-W1\DatabaseConnection.class
-W1\ShoppingCartCalculator.class
+w1\LocalizationService.class
+w1\ShoppingCartGUI.class
+w1\ShoppingCartFxView.class
+w1\ShoppingCart.class
+w1\CartService.class
+w1\Main.class
+w1\ShoppingCartCalculator.class
+w1\DatabaseConnection.class
+w1\ShoppingCart$ShoppingItem.class

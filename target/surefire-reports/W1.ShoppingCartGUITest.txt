@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: W1.ShoppingCartGUITest
+Test set: w1.ShoppingCartGUITest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.45 s -- in W1.ShoppingCartGUITest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.86 s -- in w1.ShoppingCartGUITest

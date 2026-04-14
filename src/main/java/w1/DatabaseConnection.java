@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

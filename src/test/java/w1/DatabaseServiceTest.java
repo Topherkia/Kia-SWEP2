@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -135,10 +135,19 @@ class DatabaseServicesTest {
     }
 
     @Test
-    @DisplayName("DatabaseConnection should prefer system properties for testability")
+    @DisplayName("DatabaseConnection should prefer system properties for credentials")
     void databaseConnection_UsesSystemProperties() {
-        assertTrue(DatabaseConnection.getDbUrl().contains("jdbc:h2:mem:shopping_cart_localization"));
-        assertEquals("sa", DatabaseConnection.getDbUsername());
-        assertEquals("", DatabaseConnection.getDbPassword());
+        System.setProperty("DB_PASSWORD", "top_secret_123");
+        System.setProperty("DB_USERNAME", "test_user");
+
+        try {
+            assertEquals("test_user", DatabaseConnection.getDbUsername(),
+                    "Should use the system property for username");
+            assertEquals("top_secret_123", DatabaseConnection.getDbPassword(),
+                    "Should use the system property for password");
+        } finally {
+            System.clearProperty("DB_PASSWORD");
+            System.clearProperty("DB_USERNAME");
+        }
     }
 }

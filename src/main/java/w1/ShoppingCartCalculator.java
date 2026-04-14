@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

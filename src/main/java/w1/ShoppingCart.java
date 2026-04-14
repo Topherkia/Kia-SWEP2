@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

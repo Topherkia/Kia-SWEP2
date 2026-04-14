@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

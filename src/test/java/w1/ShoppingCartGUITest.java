@@ -1,4 +1,4 @@
-package W1;
+package w1;
 
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -8,14 +8,9 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.hamcrest.Matchers.containsString;
-import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import java.sql.SQLException;
 
-public class ShoppingCartGUITest extends ApplicationTest {
-    private CartService mockService;
+
+class ShoppingCartGUITest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         ShoppingCartGUI gui = new ShoppingCartGUI();

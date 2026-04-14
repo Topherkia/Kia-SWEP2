@@ -19,4 +19,4 @@ COPY db/schema.sql /app/db/schema.sql
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
-ENTRYPOINT ["java", "-cp", "/app/app.jar:/app/lib/*", "W1.ShoppingCartCalculator"]
+ENTRYPOINT ["java", "-cp", "/app/app.jar:/app/lib/*", "w1.ShoppingCartCalculator"]

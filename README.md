@@ -1,10 +1,10 @@
 
 ## Project Structure
 
-- `src/main/java/W1/DatabaseConnection.java` — DB URL/credentials and connection helper
-- `src/main/java/W1/LocalizationService.java` — loads localized key/value text from DB
-- `src/main/java/W1/CartService.java` — persists cart record + cart items transactionally
-- `src/main/java/W1/ShoppingCartCalculator.java` — CLI app flow using localization + persistence
+- `src/main/java/w1/DatabaseConnection.java` — DB URL/credentials and connection helper
+- `src/main/java/w1/LocalizationService.java` — loads localized key/value text from DB
+- `src/main/java/w1/CartService.java` — persists cart record + cart items transactionally
+- `src/main/java/w1/ShoppingCartCalculator.java` — CLI app flow using localization + persistence
 - `db/schema.sql` — schema creation SQL + seed localization strings
 - `Dockerfile` — container build for running the CLI app
 - `Jenkinsfile` — CI pipeline for build/test/package/docker
@@ -91,11 +91,11 @@ mvn clean test
 ## 4) Run the Application (CLI)
 
 ```bash
-mvn -q exec:java -Dexec.mainClass=W1.ShoppingCartCalculator
+mvn -q exec:java -Dexec.mainClass=w1.ShoppingCartCalculator
 ```
 ## 4.1) Run with GUI
 ```bash
-mvn -q exec:java -Dexec.mainClass=W1.ShoppingCartGUI
+mvn -q exec:java -Dexec.mainClass=w1.ShoppingCartGUI
 ```
 
 ## 5) Verify Stored Data
