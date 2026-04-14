@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="w1.ShoppingCartGUITest" time="21.862" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="w1.ShoppingCartGUITest" time="21.51" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sonar.projectName" value="SWEP-KIA"/>
     <property name="java.specification.version" value="25"/>
@@ -20,7 +20,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="GB"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-25\bin"/>
-    <property name="sun.java.command" value="C:\Users\kiava\AppData\Local\Temp\surefire4577474394481672487\surefirebooter-20260414191320793_3.jar C:\Users\kiava\AppData\Local\Temp\surefire4577474394481672487 2026-04-14T19-13-20_614-jvmRun1 surefire-20260414191320793_1tmp surefire_0-20260414191320793_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\kiava\AppData\Local\Temp\surefire12672467336853486156\surefirebooter-20260414193534850_3.jar C:\Users\kiava\AppData\Local\Temp\surefire12672467336853486156 2026-04-14T19-35-34_645-jvmRun1 surefire-20260414193534850_1tmp surefire_0-20260414193534850_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\uni\SWEP2\Kia-SWEP2\target\test-classes;D:\uni\SWEP2\Kia-SWEP2\target\classes;C:\Users\kiava\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\kiava\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\kiava\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\kiava\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\kiava\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\kiava\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\kiava\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\kiava\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\kiava\.m2\repository\com\mysql\mysql-connector-j\8.4.0\mysql-connector-j-8.4.0.jar;C:\Users\kiava\.m2\repository\com\google\protobuf\protobuf-java\3.25.1\protobuf-java-3.25.1.jar;C:\Users\kiava\.m2\repository\org\mariadb\jdbc\mariadb-java-client\3.3.3\mariadb-java-client-3.3.3.jar;C:\Users\kiava\.m2\repository\com\github\waffle\waffle-jna\3.3.0\waffle-jna-3.3.0.jar;C:\Users\kiava\.m2\repository\net\java\dev\jna\jna\5.13.0\jna-5.13.0.jar;C:\Users\kiava\.m2\repository\net\java\dev\jna\jna-platform\5.13.0\jna-platform-5.13.0.jar;C:\Users\kiava\.m2\repository\org\slf4j\jcl-over-slf4j\2.0.7\jcl-over-slf4j-2.0.7.jar;C:\Users\kiava\.m2\repository\com\github\ben-manes\caffeine\caffeine\2.9.3\caffeine-2.9.3.jar;C:\Users\kiava\.m2\repository\com\google\errorprone\error_prone_annotations\2.10.0\error_prone_annotations-2.10.0.jar;C:\Users\kiava\.m2\repository\org\checkerframework\checker-qual\3.32.0\checker-qual-3.32.0.jar;C:\Users\kiava\.m2\repository\com\h2database\h2\2.2.224\h2-2.2.224.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-controls\21.0.2\javafx-controls-21.0.2.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-controls\21.0.2\javafx-controls-21.0.2-win.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-graphics\21.0.2\javafx-graphics-21.0.2.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-graphics\21.0.2\javafx-graphics-21.0.2-win.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-base\21.0.2\javafx-base-21.0.2.jar;C:\Users\kiava\.m2\repository\org\openjfx\javafx-base\21.0.2\javafx-base-21.0.2-win.jar;C:\Users\kiava\.m2\repository\org\testfx\testfx-junit5\4.0.18\testfx-junit5-4.0.18.jar;C:\Users\kiava\.m2\repository\org\testfx\testfx-core\4.0.18\testfx-core-4.0.18.jar;C:\Users\kiava\.m2\repository\org\osgi\org.osgi.core\6.0.0\org.osgi.core-6.0.0.jar;C:\Users\kiava\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;C:\Users\kiava\.m2\repository\org\assertj\assertj-core\3.13.2\assertj-core-3.13.2.jar;C:\Users\kiava\.m2\repository\org\testfx\openjfx-monocle\21.0.2\openjfx-monocle-21.0.2.jar;C:\Users\kiava\.m2\repository\io\github\cdimascio\dotenv-java\3.0.0\dotenv-java-3.0.0.jar;C:\Users\kiava\.m2\repository\org\slf4j\slf4j-nop\2.0.12\slf4j-nop-2.0.12.jar;C:\Users\kiava\.m2\repository\org\slf4j\slf4j-api\2.0.12\slf4j-api-2.0.12.jar;C:\Users\kiava\.m2\repository\org\mockito\mockito-core\5.0.0\mockito-core-5.0.0.jar;C:\Users\kiava\.m2\repository\net\bytebuddy\byte-buddy\1.12.22\byte-buddy-1.12.22.jar;C:\Users\kiava\.m2\repository\net\bytebuddy\byte-buddy-agent\1.12.22\byte-buddy-agent-1.12.22.jar;C:\Users\kiava\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -37,7 +37,7 @@
     <property name="prism.order" value="sw"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\kiava\AppData\Local\Temp\surefire4577474394481672487\surefirebooter-20260414191320793_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\kiava\AppData\Local\Temp\surefire12672467336853486156\surefirebooter-20260414193534850_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.1+8-LTS-27"/>
@@ -70,76 +70,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testClearCart" classname="w1.ShoppingCartGUITest" time="3.202">
-    <system-err><![CDATA[java.lang.instrument.IllegalClassFormatException: Error while instrumenting sun/util/resources/provider/NonBaseLocaleDataMetaInfo with JaCoCo 0.8.11.202310140853/f33756c.
-	at org.jacoco.agent.rt.internal_4742761.CoverageTransformer.transform(CoverageTransformer.java:94)
-	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:257)
-	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
-	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:594)
-	at java.base/java.lang.ClassLoader.defineClass2(Native Method)
-	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1052)
-	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:176)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.defineClass(BuiltinClassLoader.java:735)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.findClassInModuleOrNull(BuiltinClassLoader.java:678)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.findClass(BuiltinClassLoader.java:560)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:602)
-	at java.base/java.lang.Class.forName(Class.java:599)
-	at java.base/java.util.ServiceLoader.loadProvider(ServiceLoader.java:755)
-	at java.base/java.util.ServiceLoader$ModuleServicesLookupIterator.hasNext(ServiceLoader.java:955)
-	at java.base/java.util.ServiceLoader$1.hasNext(ServiceLoader.java:1164)
-	at java.base/java.util.ServiceLoader$2.hasNext(ServiceLoader.java:1246)
-	at java.base/sun.util.locale.provider.JRELocaleProviderAdapter.createSupportedLocaleString(JRELocaleProviderAdapter.java:423)
-	at java.base/sun.util.locale.provider.JRELocaleProviderAdapter.createLanguageTagSet(JRELocaleProviderAdapter.java:410)
-	at java.base/sun.util.locale.provider.FallbackLocaleProviderAdapter.createLanguageTagSet(FallbackLocaleProviderAdapter.java:67)
-	at java.base/sun.util.locale.provider.JRELocaleProviderAdapter.getLanguageTagSet(JRELocaleProviderAdapter.java:400)
-	at java.base/sun.util.locale.provider.JRELocaleProviderAdapter.getCurrencyNameProvider(JRELocaleProviderAdapter.java:239)
-	at java.base/sun.util.locale.provider.JRELocaleProviderAdapter.getLocaleServiceProvider(JRELocaleProviderAdapter.java:98)
-	at java.base/sun.util.locale.provider.LocaleServiceProviderPool.findProviders(LocaleServiceProviderPool.java:313)
-	at java.base/sun.util.locale.provider.LocaleServiceProviderPool.getLocalizedObjectImpl(LocaleServiceProviderPool.java:283)
-	at java.base/sun.util.locale.provider.LocaleServiceProviderPool.getLocalizedObject(LocaleServiceProviderPool.java:245)
-	at java.base/java.util.Currency.getSymbol(Currency.java:571)
-	at java.base/java.text.DecimalFormatSymbols.initializeCurrency(DecimalFormatSymbols.java:905)
-	at java.base/java.text.DecimalFormatSymbols.getCurrencySymbol(DecimalFormatSymbols.java:414)
-	at java.base/java.text.DecimalFormat.expandAffix(DecimalFormat.java:3324)
-	at java.base/java.text.DecimalFormat.expandAffixes(DecimalFormat.java:3280)
-	at java.base/java.text.DecimalFormat.applyPattern(DecimalFormat.java:3976)
-	at java.base/java.text.DecimalFormat.<init>(DecimalFormat.java:519)
-	at java.base/sun.util.locale.provider.NumberFormatProviderImpl.getInstance(NumberFormatProviderImpl.java:193)
-	at java.base/sun.util.locale.provider.NumberFormatProviderImpl.getCurrencyInstance(NumberFormatProviderImpl.java:109)
-	at java.base/java.text.NumberFormat.getInstance(NumberFormat.java:1136)
-	at java.base/java.text.NumberFormat.getInstance(NumberFormat.java:1120)
-	at java.base/java.text.NumberFormat.getCurrencyInstance(NumberFormat.java:699)
-	at w1.ShoppingCartGUI.updateTotal(ShoppingCartGUI.java:245)
-	at w1.ShoppingCartGUI.updateTexts(ShoppingCartGUI.java:152)
-	at w1.ShoppingCartGUI.start(ShoppingCartGUI.java:108)
-	at w1.ShoppingCartGUITest.start(ShoppingCartGUITest.java:24)
-	at org.testfx.framework.junit5.ApplicationAdapter.start(ApplicationAdapter.java:37)
-	at org.testfx.toolkit.impl.ApplicationServiceImpl.lambda$start$0(ApplicationServiceImpl.java:49)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at com.sun.glass.ui.monocle.RunnableProcessor.runLoop(RunnableProcessor.java:92)
-	at com.sun.glass.ui.monocle.RunnableProcessor.run(RunnableProcessor.java:51)
-	at java.base/java.lang.Thread.run(Thread.java:1474)
-Caused by: java.io.IOException: Error while instrumenting sun/util/resources/provider/NonBaseLocaleDataMetaInfo with JaCoCo 0.8.11.202310140853/f33756c.
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrumentError(Instrumenter.java:161)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:111)
-	at org.jacoco.agent.rt.internal_4742761.CoverageTransformer.transform(CoverageTransformer.java:92)
-	... 49 more
-Caused by: java.lang.IllegalArgumentException: Unsupported class file major version 69
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:200)
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:180)
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:166)
-	at org.jacoco.agent.rt.internal_4742761.core.internal.instr.InstrSupport.classReaderFor(InstrSupport.java:280)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:77)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:109)
-	... 50 more
-]]></system-err>
-  </testcase>
-  <testcase name="testAddMultipleItemsAndSave" classname="w1.ShoppingCartGUITest" time="5.552"/>
-  <testcase name="testNewCartButton" classname="w1.ShoppingCartGUITest" time="3.224"/>
-  <testcase name="testSaveButtonWithNonEmptyCart" classname="w1.ShoppingCartGUITest" time="5.694"/>
-  <testcase name="testSaveButtonWithEmptyCart" classname="w1.ShoppingCartGUITest" time="1.532"/>
-  <testcase name="testAddItemAndTotal" classname="w1.ShoppingCartGUITest" time="2.649"/>
+  <testcase name="testClearCart" classname="w1.ShoppingCartGUITest" time="3.071"/>
+  <testcase name="testAddMultipleItemsAndSave" classname="w1.ShoppingCartGUITest" time="5.519"/>
+  <testcase name="testNewCartButton" classname="w1.ShoppingCartGUITest" time="3.184"/>
+  <testcase name="testSaveButtonWithNonEmptyCart" classname="w1.ShoppingCartGUITest" time="5.565"/>
+  <testcase name="testSaveButtonWithEmptyCart" classname="w1.ShoppingCartGUITest" time="1.553"/>
+  <testcase name="testAddItemAndTotal" classname="w1.ShoppingCartGUITest" time="2.601"/>
 </testsuite>

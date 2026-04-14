@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.087" tests="11" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="w1.ShoppingCartCalculatorTest" time="0.083" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sonar.projectName" value="SWEP-KIA"/>
     <property name="java.specification.version" value="25"/>
-    <property name="javafx.runtime.version" value="21.0.2+5"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sonar.host.url" value="http://localhost:9000"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
@@ -15,7 +14,6 @@
     <property name="user.timezone" value="Europe/Helsinki"/>
     <property name="os.name" value="Windows 11"/>
     <property name="java.vm.specification.version" value="25"/>
-    <property name="javafx.version" value="21.0.2"/>
     <property name="prism.text" value="t2k"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="GB"/>
@@ -70,15 +68,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testCalculateItemTotal_ZeroQuantity" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.001"/>
-  <testcase name="testCalculateItemTotal_VariousInputs(double, int, double)[1]" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.013"/>
-  <testcase name="testCalculateItemTotal_VariousInputs(double, int, double)[2]" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.001"/>
-  <testcase name="testCalculateItemTotal_VariousInputs(double, int, double)[3]" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.0"/>
-  <testcase name="testCalculateItemTotal_VariousInputs(double, int, double)[4]" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.001"/>
-  <testcase name="testCalculateItemTotal_VariousInputs(double, int, double)[5]" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.002"/>
-  <testcase name="testCalculateItemTotal_NegativeQuantity" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.002"/>
-  <testcase name="testCalculateItemTotal_NegativePrice" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.002"/>
-  <testcase name="testCalculateItemTotal_ZeroPrice" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.001"/>
-  <testcase name="testCalculateItemTotal_SingleItem" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.0"/>
-  <testcase name="testCalculateItemTotal_LargeNumbers" classname="w1.ShoppingCartTest$ItemTotalCalculationTests" time="0.0"/>
+  <testcase name="selectLanguage_usesChosenLanguageAndDefaultsOnInvalid" classname="w1.ShoppingCartCalculatorTest" time="0.011"/>
+  <testcase name="runShoppingSession_handlesInvalidInputsAndAddsValidItem" classname="w1.ShoppingCartCalculatorTest" time="0.005"/>
+  <testcase name="saveCartToDatabase_printsSuccessAndErrorPaths" classname="w1.ShoppingCartCalculatorTest" time="0.011"/>
+  <testcase name="runShoppingSession_printsErrorWhenReaderThrows" classname="w1.ShoppingCartCalculatorTest" time="0.004"/>
+  <testcase name="msg_returnsKeyWhenMissing" classname="w1.ShoppingCartCalculatorTest" time="0.005"/>
+  <testcase name="displayCartSummary_and_displayTotal_coverAllThresholds" classname="w1.ShoppingCartCalculatorTest" time="0.033"/>
 </testsuite>

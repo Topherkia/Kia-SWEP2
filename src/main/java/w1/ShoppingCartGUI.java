@@ -236,8 +236,6 @@ public class ShoppingCartGUI extends Application {
             showInfo(messages.getString("cart_saved") + " " + messages.getString("id") + ": " + cartId);
         } catch (SQLException e) {
             showError(messages.getString("database_error") + ": " + e.getMessage());
-            // add for debugging
-            //e.printStackTrace();
         }
     }
 

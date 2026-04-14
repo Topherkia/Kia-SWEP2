@@ -236,40 +236,41 @@ import java.util.ResourceBundle;
 <span class="fc" id="L236">            showInfo(messages.getString(&quot;cart_saved&quot;) + &quot; &quot; + messages.getString(&quot;id&quot;) + &quot;: &quot; + cartId);</span>
 <span class="nc" id="L237">        } catch (SQLException e) {</span>
 <span class="nc" id="L238">            showError(messages.getString(&quot;database_error&quot;) + &quot;: &quot; + e.getMessage());</span>
-<span class="nc" id="L239">            e.printStackTrace();</span>
-<span class="fc" id="L240">        }</span>
-<span class="fc" id="L241">    }</span>
+            // add for debugging
+            //e.printStackTrace();
+<span class="fc" id="L241">        }</span>
+<span class="fc" id="L242">    }</span>
 
     private void updateTotal() {
-<span class="fc" id="L244">        double total = cart.calculateTotalCost();</span>
-<span class="fc" id="L245">        NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
+<span class="fc" id="L245">        double total = cart.calculateTotalCost();</span>
+<span class="fc" id="L246">        NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
 
-<span class="fc" id="L247">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: &quot; + format.format(total));</span>
-<span class="fc" id="L248">    }</span>
+<span class="fc" id="L248">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: &quot; + format.format(total));</span>
+<span class="fc" id="L249">    }</span>
 
     private void showError(String message) {
-<span class="nc" id="L251">        Alert alert = new Alert(Alert.AlertType.ERROR);</span>
-<span class="nc" id="L252">        alert.setHeaderText(messages.getString(&quot;error&quot;));</span>
-<span class="nc" id="L253">        alert.setContentText(message);</span>
-<span class="nc" id="L254">        alert.showAndWait();</span>
-<span class="nc" id="L255">    }</span>
+<span class="nc" id="L252">        Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L253">        alert.setHeaderText(messages.getString(&quot;error&quot;));</span>
+<span class="nc" id="L254">        alert.setContentText(message);</span>
+<span class="nc" id="L255">        alert.showAndWait();</span>
+<span class="nc" id="L256">    }</span>
 
     private void showWarning(String message) {
-<span class="fc" id="L258">        Alert alert = new Alert(Alert.AlertType.WARNING);</span>
-<span class="fc" id="L259">        alert.setHeaderText(messages.getString(&quot;warning&quot;));</span>
-<span class="fc" id="L260">        alert.setContentText(message);</span>
-<span class="fc" id="L261">        alert.showAndWait();</span>
-<span class="fc" id="L262">    }</span>
+<span class="fc" id="L259">        Alert alert = new Alert(Alert.AlertType.WARNING);</span>
+<span class="fc" id="L260">        alert.setHeaderText(messages.getString(&quot;warning&quot;));</span>
+<span class="fc" id="L261">        alert.setContentText(message);</span>
+<span class="fc" id="L262">        alert.showAndWait();</span>
+<span class="fc" id="L263">    }</span>
 
     private void showInfo(String message) {
-<span class="fc" id="L265">        Alert alert = new Alert(Alert.AlertType.INFORMATION);</span>
-<span class="fc" id="L266">        alert.setHeaderText(messages.getString(&quot;information&quot;));</span>
-<span class="fc" id="L267">        alert.setContentText(message);</span>
-<span class="fc" id="L268">        alert.showAndWait();</span>
-<span class="fc" id="L269">    }</span>
+<span class="fc" id="L266">        Alert alert = new Alert(Alert.AlertType.INFORMATION);</span>
+<span class="fc" id="L267">        alert.setHeaderText(messages.getString(&quot;information&quot;));</span>
+<span class="fc" id="L268">        alert.setContentText(message);</span>
+<span class="fc" id="L269">        alert.showAndWait();</span>
+<span class="fc" id="L270">    }</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L272">        launch();</span>
-<span class="nc" id="L273">    }</span>
+<span class="nc" id="L273">        launch();</span>
+<span class="nc" id="L274">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
