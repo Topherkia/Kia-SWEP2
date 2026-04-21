@@ -11,6 +11,13 @@ RUN mvn -q -DskipTests package dependency:copy-dependencies -DincludeScope=runti
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
+USER root
+RUN apt-get update && apt-get install -y \
+    libgtk-3-0 \
+    libglu1-mesa \
+    libxtst6 \
+    libxxf86vm1 \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/target/Kia-SWEP2-1.0-SNAPSHOT.jar /app/app.jar
 COPY --from=builder /app/target/dependency /app/lib
@@ -19,4 +26,4 @@ COPY db/schema.sql /app/db/schema.sql
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
-ENTRYPOINT ["java", "-cp", "/app/app.jar:/app/lib/*", "w1.ShoppingCartCalculator"]
+ENTRYPOINT ["java", "-Dprism.order=sw", "-cp", "/app/app.jar:/app/lib/*", "w1.ShoppingCartCalculator"]
