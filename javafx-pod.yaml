@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shopping-cart-gui
+spec:
+  # Use the registry secret to pull the image from Docker Hub
+  imagePullSecrets:
+    - name: regcred
+  containers:
+    - name: app
+      image: mkiavash/shopping-cart-calc:latest
+      env:
+        - name: DISPLAY
+          value: "192.168.101.101:0.0"
+        - name: DB_URL
+          value: "jdbc:mysql://192.168.101.101:3306/shopping_cart_localization?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+        # Pull Database credentials from the secret
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+      imagePullPolicy: IfNotPresent
