@@ -10,15 +10,16 @@ pipeline {
         JAVA_HOME = tool name: 'Local JDK-21', type: 'jdk'
         MAVEN_HOME = tool name: 'Local Maven 3.9.11', type: 'maven'
 
+        // Docker Configuration
         DOCKER_HUB_USER = 'mkiavash'
         IMAGE_NAME = 'shopping-cart-calc'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
 
-
-        SONARQUBE_SERVER = 'KiaSonarServer'
-        SONAR_PROJECT_KEY = 'shopping-cart-calculator'
-        SONAR_PROJECT_NAME = 'Shopping Cart Calculator'
+        // SonarQube Configuration (Direct approach - no Jenkins server config needed)
         SONAR_HOST_URL = 'http://localhost:9000'
+        SONAR_PROJECT_KEY = 'SWEP-KIA'
+        SONAR_PROJECT_NAME = 'SWEP-KIA'
+        // SONAR_TOKEN will be injected from Jenkins credentials
     }
 
     stages {
@@ -91,12 +92,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 echo 'Running SonarQube analysis...'
-                withSonarQubeEnv('${SONARQUBE_SERVER}') {
+                // Using credentials plugin to inject SONAR_TOKEN securely
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                     bat '''
                         mvn sonar:sonar ^
-                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
-                            -Dsonar.projectName="${SONAR_PROJECT_NAME}" ^
-                            -Dsonar.host.url=${SONAR_HOST_URL} ^
+                            -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
+                            -Dsonar.projectName="%SONAR_PROJECT_NAME%" ^
+                            -Dsonar.host.url=%SONAR_HOST_URL% ^
+                            -Dsonar.login=%SONAR_TOKEN% ^
                             -Dsonar.sources=src/main/java ^
                             -Dsonar.java.binaries=target/classes ^
                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
@@ -107,10 +110,58 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                echo 'Waiting for SonarQube Quality Gate result...'
-                timeout(time: 5, unit: 'MINUTES') {
-                    // This step waits for the SonarQube Quality Gate result
-                    waitForQualityGate abortPipeline: true
+                echo 'Checking SonarQube Quality Gate result...'
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                    script {
+                        timeout(time: 5, unit: 'MINUTES') {
+                            retry(30) {
+                                sleep(time: 10, unit: 'SECONDS')
+
+                                def statusCode = bat(
+                                    script: '''
+                                        powershell -NoProfile -Command "
+                                        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+                                        $headers = @{
+                                            'Authorization' = 'Bearer %SONAR_TOKEN%'
+                                        }
+
+                                        try {
+                                            $response = Invoke-RestMethod `
+                                                -Uri 'http://localhost:9000/api/qualitygates/project_status?projectKey=shopping-cart-calculator' `
+                                                -Headers $headers `
+                                                -ErrorAction Stop
+
+                                            $qgStatus = $response.projectStatus.status
+                                            Write-Host "Quality Gate Status: $qgStatus"
+
+                                            if ($qgStatus -eq 'OK') {
+                                                Write-Host 'Quality Gate: PASSED'
+                                                exit 0
+                                            } else {
+                                                Write-Host 'Quality Gate: FAILED'
+                                                exit 1
+                                            }
+                                        } catch {
+                                            Write-Host "Error checking Quality Gate: $_"
+                                            exit 2
+                                        }
+                                        "
+                                    ''',
+                                    returnStatus: true
+                                )
+
+                                if (statusCode == 0) {
+                                    echo '✓ Quality Gate PASSED - Proceeding to Docker build'
+                                    return
+                                } else if (statusCode == 1) {
+                                    error('✗ Quality Gate FAILED - Check SonarQube for violations')
+                                } else {
+                                    echo 'Retrying Quality Gate check...'
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
