@@ -176,6 +176,21 @@ class ShoppingCartCalculatorTest {
         assertEquals("Item", existing);
         assertEquals("missing_key", missing);
     }
+    @Test
+    void main_runsEndToEndWithEmptyCartInput() {
+        java.io.InputStream originalIn = System.in;
+        String input = "1\n\n";
+        try (java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))) {
+            System.setIn(bais);
+            assertDoesNotThrow(() -> ShoppingCartCalculator.main(new String[]{}));
+            assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("Select language"));
+        } catch (java.io.IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            System.setIn(originalIn);
+        }
+    }
+
 
     private BufferedReader reader(String input) {
         return new BufferedReader(new StringReader(input));

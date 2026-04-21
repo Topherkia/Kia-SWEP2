@@ -25,16 +25,16 @@ public final class DatabaseConnection {
 
     private static String readSetting(String key, String defaultValue) {
 <span class="fc" id="L27">        String systemValue = System.getProperty(key);</span>
-<span class="pc bpc" id="L28" title="1 of 4 branches missed.">        if (systemValue != null &amp;&amp; !systemValue.isBlank()) {</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">        if (systemValue != null &amp;&amp; !systemValue.isBlank()) {</span>
 <span class="fc" id="L29">            return systemValue;</span>
         }
 
 <span class="fc" id="L32">        String envValue = System.getenv(key);</span>
-<span class="pc bpc" id="L33" title="2 of 4 branches missed.">        if (envValue != null &amp;&amp; !envValue.isBlank()) {</span>
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if (envValue != null &amp;&amp; !envValue.isBlank()) {</span>
 <span class="fc" id="L34">            return envValue;</span>
         }
 
-<span class="nc" id="L37">        return defaultValue;</span>
+<span class="fc" id="L37">        return defaultValue;</span>
     }
 
     public static Connection getConnection() throws SQLException {

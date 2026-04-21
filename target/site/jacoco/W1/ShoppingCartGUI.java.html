@@ -160,21 +160,21 @@ import java.util.ResourceBundle;
             double price;
             int quantity;
 
-<span class="pc bpc" id="L163" title="2 of 4 branches missed.">            if (!priceText.isEmpty() &amp;&amp; !quantityText.isEmpty()) {</span>
+<span class="pc bpc" id="L163" title="1 of 4 branches missed.">            if (!priceText.isEmpty() &amp;&amp; !quantityText.isEmpty()) {</span>
 <span class="fc" id="L164">                price = Double.parseDouble(priceText);</span>
 <span class="fc" id="L165">                quantity = Integer.parseInt(quantityText);</span>
 
-<span class="nc bnc" id="L167" title="All 2 branches missed.">            } else if (!priceText.isEmpty()) {</span>
-<span class="nc" id="L168">                String digitsOnly = priceText.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            } else if (!priceText.isEmpty()) {</span>
+<span class="fc" id="L168">                String digitsOnly = priceText.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
 
-<span class="nc bnc" id="L170" title="All 2 branches missed.">                if (digitsOnly.length() &lt; 2) {</span>
-<span class="nc" id="L171">                    throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">                if (digitsOnly.length() &lt; 2) {</span>
+<span class="fc" id="L171">                    throw new IllegalArgumentException();</span>
                 }
 
-<span class="nc" id="L174">                price = Double.parseDouble(digitsOnly.substring(0, digitsOnly.length() - 1));</span>
-<span class="nc" id="L175">                quantity = Integer.parseInt(digitsOnly.substring(digitsOnly.length() - 1));</span>
+<span class="fc" id="L174">                price = Double.parseDouble(digitsOnly.substring(0, digitsOnly.length() - 1));</span>
+<span class="fc" id="L175">                quantity = Integer.parseInt(digitsOnly.substring(digitsOnly.length() - 1));</span>
 
-<span class="nc" id="L177">            } else {</span>
+<span class="fc" id="L177">            } else {</span>
 <span class="nc" id="L178">                throw new IllegalArgumentException();</span>
             }
 
@@ -193,8 +193,8 @@ import java.util.ResourceBundle;
 
 <span class="fc" id="L194">            updateTotal();</span>
 
-<span class="nc" id="L196">        } catch (Exception e) {</span>
-<span class="nc" id="L197">            showError(messages.getString(&quot;error&quot;));</span>
+<span class="fc" id="L196">        } catch (Exception e) {</span>
+<span class="fc" id="L197">            showError(messages.getString(&quot;error&quot;));</span>
 <span class="fc" id="L198">        }</span>
 <span class="fc" id="L199">    }</span>
 
@@ -206,7 +206,7 @@ import java.util.ResourceBundle;
 <span class="fc" id="L206">    }</span>
 
     private void newCart() {
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (!cart.isEmpty()) {</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (!cart.isEmpty()) {</span>
 <span class="fc" id="L210">            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);</span>
 <span class="fc" id="L211">            confirmDialog.setTitle(messages.getString(&quot;confirm&quot;));</span>
 <span class="fc" id="L212">            confirmDialog.setHeaderText(messages.getString(&quot;new_cart_confirm_header&quot;));</span>
@@ -221,7 +221,7 @@ import java.util.ResourceBundle;
 <span class="fc" id="L221">                showInfo(messages.getString(&quot;new_cart_created&quot;));</span>
             }
 <span class="fc" id="L223">        } else {</span>
-<span class="nc" id="L224">            showInfo(messages.getString(&quot;cart_already_empty&quot;));</span>
+<span class="fc" id="L224">            showInfo(messages.getString(&quot;cart_already_empty&quot;));</span>
         }
 <span class="fc" id="L226">    }</span>
 
@@ -234,43 +234,41 @@ import java.util.ResourceBundle;
         try {
 <span class="fc" id="L235">            int cartId = cartService.saveCart(cart, currentLocale);</span>
 <span class="fc" id="L236">            showInfo(messages.getString(&quot;cart_saved&quot;) + &quot; &quot; + messages.getString(&quot;id&quot;) + &quot;: &quot; + cartId);</span>
-<span class="nc" id="L237">        } catch (SQLException e) {</span>
-<span class="nc" id="L238">            showError(messages.getString(&quot;database_error&quot;) + &quot;: &quot; + e.getMessage());</span>
-            // add for debugging
-            //e.printStackTrace();
-<span class="fc" id="L241">        }</span>
-<span class="fc" id="L242">    }</span>
+<span class="fc" id="L237">        } catch (SQLException e) {</span>
+<span class="fc" id="L238">            showError(messages.getString(&quot;database_error&quot;) + &quot;: &quot; + e.getMessage());</span>
+<span class="fc" id="L239">        }</span>
+<span class="fc" id="L240">    }</span>
 
     private void updateTotal() {
-<span class="fc" id="L245">        double total = cart.calculateTotalCost();</span>
-<span class="fc" id="L246">        NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
+<span class="fc" id="L243">        double total = cart.calculateTotalCost();</span>
+<span class="fc" id="L244">        NumberFormat format = NumberFormat.getCurrencyInstance(currentLocale);</span>
 
-<span class="fc" id="L248">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: &quot; + format.format(total));</span>
-<span class="fc" id="L249">    }</span>
+<span class="fc" id="L246">        totalLabel.setText(messages.getString(&quot;total_cost&quot;) + &quot;: &quot; + format.format(total));</span>
+<span class="fc" id="L247">    }</span>
 
     private void showError(String message) {
-<span class="nc" id="L252">        Alert alert = new Alert(Alert.AlertType.ERROR);</span>
-<span class="nc" id="L253">        alert.setHeaderText(messages.getString(&quot;error&quot;));</span>
-<span class="nc" id="L254">        alert.setContentText(message);</span>
-<span class="nc" id="L255">        alert.showAndWait();</span>
-<span class="nc" id="L256">    }</span>
+<span class="fc" id="L250">        Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="fc" id="L251">        alert.setHeaderText(messages.getString(&quot;error&quot;));</span>
+<span class="fc" id="L252">        alert.setContentText(message);</span>
+<span class="fc" id="L253">        alert.showAndWait();</span>
+<span class="fc" id="L254">    }</span>
 
     private void showWarning(String message) {
-<span class="fc" id="L259">        Alert alert = new Alert(Alert.AlertType.WARNING);</span>
-<span class="fc" id="L260">        alert.setHeaderText(messages.getString(&quot;warning&quot;));</span>
-<span class="fc" id="L261">        alert.setContentText(message);</span>
-<span class="fc" id="L262">        alert.showAndWait();</span>
-<span class="fc" id="L263">    }</span>
+<span class="fc" id="L257">        Alert alert = new Alert(Alert.AlertType.WARNING);</span>
+<span class="fc" id="L258">        alert.setHeaderText(messages.getString(&quot;warning&quot;));</span>
+<span class="fc" id="L259">        alert.setContentText(message);</span>
+<span class="fc" id="L260">        alert.showAndWait();</span>
+<span class="fc" id="L261">    }</span>
 
     private void showInfo(String message) {
-<span class="fc" id="L266">        Alert alert = new Alert(Alert.AlertType.INFORMATION);</span>
-<span class="fc" id="L267">        alert.setHeaderText(messages.getString(&quot;information&quot;));</span>
-<span class="fc" id="L268">        alert.setContentText(message);</span>
-<span class="fc" id="L269">        alert.showAndWait();</span>
-<span class="fc" id="L270">    }</span>
+<span class="fc" id="L264">        Alert alert = new Alert(Alert.AlertType.INFORMATION);</span>
+<span class="fc" id="L265">        alert.setHeaderText(messages.getString(&quot;information&quot;));</span>
+<span class="fc" id="L266">        alert.setContentText(message);</span>
+<span class="fc" id="L267">        alert.showAndWait();</span>
+<span class="fc" id="L268">    }</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L273">        launch();</span>
-<span class="nc" id="L274">    }</span>
+<span class="nc" id="L271">        launch();</span>
+<span class="nc" id="L272">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

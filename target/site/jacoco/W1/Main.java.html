@@ -9,7 +9,7 @@ import java.util.logging.Logger;
         // Calculate the result
 <span class="fc" id="L10">        int result = addMe(12, 4);</span>
         // Conditionally log the result only if INFO level is enabled
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">        if (logger.isLoggable(Level.INFO)) {</span>
+<span class="fc bfc" id="L12" title="All 2 branches covered.">        if (logger.isLoggable(Level.INFO)) {</span>
             // Construct the log message only if INFO level logging is enabled
 <span class="fc" id="L14">            logger.info(String.format(&quot;Result of addMe(12, 4): %d&quot;, result));</span>
         }

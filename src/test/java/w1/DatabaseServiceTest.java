@@ -15,7 +15,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Database-backed Services Tests")
-class DatabaseServicesTest {
+class DatabaseServiceTest {
 
     @BeforeEach
     void setUp() throws SQLException {
@@ -148,6 +148,45 @@ class DatabaseServicesTest {
         } finally {
             System.clearProperty("DB_PASSWORD");
             System.clearProperty("DB_USERNAME");
+        }
+    }
+    @Test
+    @DisplayName("DatabaseConnection should fallback to defaults when system properties are blank")
+    void databaseConnection_BlankSystemValuesUseDefaults() {
+        System.setProperty("DB_URL", "   ");
+        System.setProperty("DB_USERNAME", "");
+        System.setProperty("DB_PASSWORD", " ");
+
+        try {
+            String url = DatabaseConnection.getDbUrl();
+            String username = DatabaseConnection.getDbUsername();
+            String password = DatabaseConnection.getDbPassword();
+
+            String envUrl = System.getenv("DB_URL");
+            String envUsername = System.getenv("DB_USERNAME");
+            String envPassword = System.getenv("DB_PASSWORD");
+
+            if (envUrl != null && !envUrl.isBlank()) {
+                assertEquals(envUrl, url, "Should use environment DB_URL when system property is blank");
+            } else {
+                assertTrue(url.contains("shopping_cart_localization"), "Should fallback to default URL");
+            }
+
+            if (envUsername != null && !envUsername.isBlank()) {
+                assertEquals(envUsername, username, "Should use environment DB_USERNAME when system property is blank");
+            } else {
+                assertEquals("root", username, "Should fallback to root username");
+            }
+
+            if (envPassword != null && !envPassword.isBlank()) {
+                assertEquals(envPassword, password, "Should use environment DB_PASSWORD when system property is blank");
+            } else {
+                assertEquals("", password, "Should fallback to blank password");
+            }
+        } finally {
+            System.clearProperty("DB_URL");
+            System.clearProperty("DB_USERNAME");
+            System.clearProperty("DB_PASSWORD");
         }
     }
 }

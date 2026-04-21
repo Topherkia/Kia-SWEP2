@@ -1,4 +1,3 @@
-w1\DatabaseServicesTest.class
 w1\ShoppingCartFxTest.class
 w1\ShoppingCartGUITest$1.class
 w1\ShoppingCartTest.class
@@ -8,7 +7,9 @@ w1\ShoppingCartCalculatorTest$1.class
 w1\ShoppingCartCalculatorTest.class
 w1\ShoppingCartTest$ItemTotalCalculationTests.class
 w1\ShoppingCartCalculatorTest$2.class
+w1\DatabaseServiceTest.class
 w1\ShoppingCartGUITest.class
 w1\ShoppingCartTest$CartManagementTests.class
 w1\ShoppingCartCalculatorTest$3.class
 w1\ShoppingCartTest$CartTotalCalculationTests.class
+w1\ShoppingCartGUITest$2.class

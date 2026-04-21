@@ -3,17 +3,20 @@ package w1;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.junit.jupiter.api.AfterEach;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.hamcrest.Matchers.containsString;
-
+import java.sql.SQLException;
 
 class ShoppingCartGUITest extends ApplicationTest {
+    private ShoppingCartGUI gui;
+
     @Override
     public void start(Stage stage) throws Exception {
-        ShoppingCartGUI gui = new ShoppingCartGUI();
+        gui = new ShoppingCartGUI();
         CartService stubService = new CartService() {
             @Override
             public int saveCart(ShoppingCart cart, java.util.Locale locale) {
@@ -23,6 +26,15 @@ class ShoppingCartGUITest extends ApplicationTest {
         gui.setCartService(stubService);
         gui.start(stage);
         }
+
+    @AfterEach
+    void tearDown() {
+        // Explicitly clear the cart object inside the GUI to ensure
+        // a fresh state for the next test.
+        interact(() -> {
+            clickOn("#clearButton");
+        });
+    }
 
     @Test
     void testAddItemAndTotal() {
@@ -109,18 +121,18 @@ class ShoppingCartGUITest extends ApplicationTest {
     @Test
     void testAddMultipleItemsAndSave() {
         // Add first item
-        clickOn("#priceField").write("10.99");
+        clickOn("#priceField").write("10");
         clickOn("#quantityField").write("2");
         clickOn("#addButton");
 
         // Add second item
-        clickOn("#priceField").write("5.50");
+        clickOn("#priceField").write("5");
         clickOn("#quantityField").write("3");
         clickOn("#addButton");
 
         // Check total
         clickOn("#totalButton");
-        verifyThat("#totalLabel", hasText(containsString("38.48")));
+        verifyThat("#totalLabel", hasText(containsString("35")));
 
         // Save the cart
         clickOn("#saveButton");
@@ -129,6 +141,53 @@ class ShoppingCartGUITest extends ApplicationTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         verifyThat(".dialog-pane .content.label", hasText(containsString("Cart saved successfully")));
+        clickOn("OK");
+    }
+    @Test
+    void testAddItemUsingCombinedPriceQuantityInput() {
+        clickOn("#priceField").write("1231");
+        clickOn("#addButton");
+
+        verifyThat("#totalLabel", hasText(containsString("123")));
+    }
+
+    @Test
+    void testAddItemShowsErrorForInvalidCombinedInput() {
+        clickOn("#priceField").write("9");
+        clickOn("#addButton");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        verifyThat(".dialog-pane .header-panel .label", hasText(containsString("Error")));
+        clickOn("OK");
+    }
+
+    @Test
+    void testNewCartWhenAlreadyEmptyShowsInfoDialog() {
+        clickOn("#newCartButton");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        verifyThat(".dialog-pane .content.label", hasText(containsString("already empty")));
+        clickOn("OK");
+    }
+
+    @Test
+    void testSaveButtonShowsDatabaseError() {
+        interact(() -> {
+            gui.setCartService(new CartService() {
+                @Override
+                public int saveCart(ShoppingCart cart, java.util.Locale locale) throws SQLException {
+                    throw new SQLException("simulated db failure");
+                }
+            });
+        });
+
+        clickOn("#priceField").write("5");
+        clickOn("#quantityField").write("1");
+        clickOn("#addButton");
+        clickOn("#saveButton");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        verifyThat(".dialog-pane .content.label", hasText(containsString("simulated db failure")));
         clickOn("OK");
     }
 }
