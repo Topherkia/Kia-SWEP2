@@ -13,6 +13,12 @@ pipeline {
         DOCKER_HUB_USER = 'mkiavash'
         IMAGE_NAME = 'shopping-cart-calc'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+
+
+        SONARQUBE_SERVER = 'KiaSonarServer'
+        SONAR_PROJECT_KEY = 'shopping-cart-calculator'
+        SONAR_PROJECT_NAME = 'Shopping Cart Calculator'
+        SONAR_HOST_URL = 'http://localhost:9000'
     }
 
     stages {
@@ -78,6 +84,33 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                withSonarQubeEnv('${SONARQUBE_SERVER}') {
+                    bat '''
+                        mvn sonar:sonar ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
+                            -Dsonar.projectName="${SONAR_PROJECT_NAME}" ^
+                            -Dsonar.host.url=${SONAR_HOST_URL} ^
+                            -Dsonar.sources=src/main/java ^
+                            -Dsonar.java.binaries=target/classes ^
+                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                echo 'Waiting for SonarQube Quality Gate result...'
+                timeout(time: 5, unit: 'MINUTES') {
+                    // This step waits for the SonarQube Quality Gate result
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
